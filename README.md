@@ -21,7 +21,6 @@ go get github.com/chyroc/anyhow
 package main
 
 import (
-	"fmt"
 	"os/user"
 
 	. "github.com/chyroc/anyhow"
@@ -44,17 +43,12 @@ func getHomePath() Result[string] {
 }
 
 func main() {
-	// setup workdir: $HOME/work or /tmp
+	// setup workdir: $HOME or /tmp
 	{
-		homePath := getHomePath()
-		workDir := MapOr(Inspect(homePath, func(t string) {
-			fmt.Printf("home path is: %s\n", t)
-		}), "/tmp", func(t string) string {
-			return t + "/work"
-		})
+		workDir := getHomePath().
+			UnwrapOr("/tmp")
 		_ = workDir
 	}
 }
-
 ```
 

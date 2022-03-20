@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"os/user"
 
 	. "github.com/chyroc/anyhow"
@@ -18,20 +17,16 @@ func addOne[T number](x T) T {
 func getHomePath() Result[string] {
 	user, err := user.Current()
 	if err != nil {
-		return AErr[string](err)
+		return Err[string](err)
 	}
-	return AOk(user.HomeDir)
+	return Ok(user.HomeDir)
 }
 
 func main() {
-	// setup workdir: $HOME/work or /tmp
+	// setup workdir: $HOME or /tmp
 	{
-		homePath := getHomePath()
-		workDir := MapOr(Inspect(homePath, func(t string) {
-			fmt.Printf("home path is: %s\n", t)
-		}), "/tmp", func(t string) string {
-			return t + "/work"
-		})
+		workDir := getHomePath().
+			UnwrapOr("/tmp")
 		_ = workDir
 	}
 }

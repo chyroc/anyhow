@@ -10,12 +10,12 @@ type Result[T any] struct {
 	E error
 }
 
-// AErr equal to generate a Result[T]{E: err}
-func AErr[T any](err error) Result[T] {
+// Err equal to generate a Result[T]{E: err}
+func Err[T any](err error) Result[T] {
 	return Result[T]{E: err}
 }
 
-// AOk equal to generate a Result[T]{T: t}
-func AOk[T any](t T) Result[T] {
+// Ok equal to generate a Result[T]{T: t}
+func Ok[T any](t T) Result[T] {
 	return Result[T]{T: t}
 }
