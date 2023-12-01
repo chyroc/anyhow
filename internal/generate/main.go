@@ -60,6 +60,24 @@ func Err{{len .}}[{{range $val := .}}{{if gt $val 1 }}, {{end}}T{{$val}}{{ end }
 	return Result{{len .}}[{{ range $val := .}}{{if gt $val 1 }}, {{end}}T{{$val}}{{ end }}]{err: err{{"}"}}
 }
 
+func And{{len .}}[{{range $val := .}}{{if gt $val 1 }}, {{end}}T{{$val}}{{ end }}, {{range $val := .}}{{if gt $val 1 }}, {{end}}U{{$val}}{{ end }} any](r Result{{len .}}[{{range $val := .}}{{if gt $val 1 }}, {{end}}T{{$val}}{{ end }}], t Result{{len .}}[{{range $val := .}}{{if gt $val 1 }}, {{end}}U{{$val}}{{ end }}]) Result{{len .}}[{{range $val := .}}{{if gt $val 1 }}, {{end}}U{{$val}}{{ end }}] {
+	if r.err != nil {
+		return Err{{len .}}[{{range $val := .}}{{if gt $val 1 }}, {{end}}U{{$val}}{{ end }}](r.err)
+	}
+	if t.err != nil {
+		return Err{{len .}}[{{range $val := .}}{{if gt $val 1 }}, {{end}}U{{$val}}{{ end }}](t.err)
+	}
+	return Ok{{len .}}[{{range $val := .}}{{if gt $val 1 }}, {{end}}U{{$val}}{{ end }}]({{range $val := .}}{{if gt $val 1 }}, {{end}}t.V{{$val}}(){{ end }})
+}
+
+func AndThen{{len .}}[{{range $val := .}}{{if gt $val 1 }}, {{end}}T{{$val}}{{ end }}, {{range $val := .}}{{if gt $val 1 }}, {{end}}U{{$val}}{{ end }} any](r Result{{len .}}[{{range $val := .}}{{if gt $val 1 }}, {{end}}T{{$val}}{{ end }}], op func({{range $val := .}}{{if gt $val 1 }}, {{end}}T{{$val}}{{ end }}) Result{{len .}}[{{range $val := .}}{{if gt $val 1 }}, {{end}}U{{$val}}{{ end }}]) Result{{len .}}[{{range $val := .}}{{if gt $val 1 }}, {{end}}U{{$val}}{{ end }}] {
+	if r.err != nil {
+		return Result{{len .}}[{{range $val := .}}{{if gt $val 1 }}, {{end}}U{{$val}}{{ end }}]{err: r.err}
+	}
+	return op({{range $val := .}}{{if gt $val 1 }}, {{end}}r.V{{$val}}(){{ end }})
+}
+
+
 {{- $ns := .}}
 {{ range $val := $ns}}
 func (r *Result{{len $ns}}[{{ range $val := $ns}}{{if gt $val 1 }}, {{end}}T{{$val}}{{ end }}]) V{{$val}}() T{{$val}} {
