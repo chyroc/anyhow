@@ -65,6 +65,11 @@ func Err{{len .}}[{{range $val := .}}{{if gt $val 1 }}, {{end}}T{{$val}}{{ end }
 	return Result{{len .}}[{{ range $val := .}}{{if gt $val 1 }}, {{end}}T{{$val}}{{ end }}]{err: err{{"}"}}
 }
 
+// Of{{len .}} pack v1, v2, ..., err to Result{{len .}}
+func Of{{len .}}[{{range $val := .}}{{if gt $val 1 }}, {{end}}T{{$val}}{{ end }} any]({{range $val := .}}{{if gt $val 1 }}, {{end}}v{{$val}} T{{$val}}{{ end }}, err error) Result{{len .}}[{{ range $val := .}}{{if gt $val 1 }}, {{end}}T{{$val}}{{ end }}] {
+    return Result{{len .}}[{{ range $val := .}}{{if gt $val 1 }}, {{end}}T{{$val}}{{ end }}]{{"{"}}{{range $val := .}}{{if gt $val 1 }}, {{end}}v{{$val}}: v{{$val}}{{ end }}, err: err}
+}
+
 // Then{{len .}} ...
 func Then{{len .}}[{{range $val := .}}{{if gt $val 1 }}, {{end}}T{{$val}}{{ end }}, {{range $val := .}}{{if gt $val 1 }}, {{end}}U{{$val}}{{ end }} any](r Result{{len .}}[{{range $val := .}}{{if gt $val 1 }}, {{end}}T{{$val}}{{ end }}], op func({{range $val := .}}{{if gt $val 1 }}, {{end}}T{{$val}}{{ end }}) Result{{len .}}[{{range $val := .}}{{if gt $val 1 }}, {{end}}U{{$val}}{{ end }}]) Result{{len .}}[{{range $val := .}}{{if gt $val 1 }}, {{end}}U{{$val}}{{ end }}] {
 	if r.err != nil {
