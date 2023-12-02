@@ -3,10 +3,14 @@
 package main
 
 import (
-	"os"
+	"bytes"
+	"fmt"
+	"go/format"
+	"log"
+	"text/template"
 )
 
-var tmpl = `
+var tmplStruct = `
 // Result{{len .}} ...
 type Result{{len .}}[{{range $val := .}}{{if gt $val 1 }}, {{end}}T{{$val}}{{ end }} any] struct {
     {{- range $val := .}}
@@ -78,23 +82,24 @@ func (r *Result{{len $ns}}[{{ range $val := $ns}}{{if gt $val 1 }}, {{end}}T{{$v
 {{ end }}
 `
 
-func main() {
-	{
-		f, err := os.Create("struct.go")
-		assert(err)
-		f.Write([]byte(generateStruct(6)))
-		f.Close()
-	}
-	{
-		f, err := os.Create("func.go")
-		assert(err)
-		f.Write([]byte(generateFunc(6)))
-		f.Close()
-	}
-}
+func generateStruct(n int) string {
+	var buf bytes.Buffer
 
-func assert(err error) {
-	if err != nil {
-		panic(err)
+	fmt.Fprintf(&buf, "package anyhow\n")
+
+	var ns []int
+	t := template.Must(template.New("").Parse(tmplStruct))
+	for i := 1; i <= n; i++ {
+		ns = append(ns, i)
+		err := t.Execute(&buf, ns)
+		if err != nil {
+			log.Fatal(err)
+		}
 	}
+
+	b, err := format.Source(buf.Bytes())
+	if err != nil {
+		log.Fatal(err)
+	}
+	return string(b)
 }
