@@ -26,20 +26,12 @@ import (
 	. "github.com/chyroc/anyhow"
 )
 
-type number interface {
-	~int | ~int32
-}
-
-func addOne[T number](x T) T {
-	return x + 1
-}
-
-func getHomePath() Result[string] {
+func getHomePath() Result1[string] {
 	user, err := user.Current()
 	if err != nil {
-		return AErr[string](err)
+		return Err1[string](err)
 	}
-	return AOk(user.HomeDir)
+	return Ok1(user.HomeDir)
 }
 
 func main() {

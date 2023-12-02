@@ -14,19 +14,18 @@ func addOne[T number](x T) T {
 	return x + 1
 }
 
-func getHomePath() Result[string] {
+func getHomePath() Result1[string] {
 	user, err := user.Current()
 	if err != nil {
-		return Err[string](err)
+		return Err1[string](err)
 	}
-	return Ok(user.HomeDir)
+	return Ok1(user.HomeDir)
 }
 
 func main() {
 	// setup workdir: $HOME or /tmp
 	{
-		workDir := getHomePath().
-			UnwrapOr("/tmp")
+		workDir := getHomePath().UnwrapOr("/tmp")
 		_ = workDir
 	}
 }
