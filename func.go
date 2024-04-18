@@ -1,577 +1,1153 @@
 package anyhow
 
-// Then11 ...
-func Then11[T1, U1 any](r Result1[T1], op func(T1) Result1[U1]) Result1[U1] {
-	if r.err != nil {
-		return Err1[U1](r.err)
+// And11 Returns res if the result is Ok, otherwise returns the Err value of self
+func And11[T1, U1 any](self Result1[T1], res Result1[U1]) Result1[U1] {
+	if self.IsOk() {
+		return res
 	}
-	return op(r.Value())
+	return Err1[U1](self.err)
 }
 
-// Or11 ...
-func Or11[T1, U1 any](r Result1[T1], defaultV1 U1, op func(T1) Result1[U1]) Result1[U1] {
-	if r.err != nil {
+// AndThen11 Calls op if the result is Ok, otherwise returns the Err value of self
+func AndThen11[T1, U1 any](self Result1[T1], op func(T1) Result1[U1]) Result1[U1] {
+	if self.IsOk() {
+		return op(self.Value())
+	}
+	return Err1[U1](self.err)
+}
+
+// Map11 Maps a Result<T> to Result<U> by applying a function to a contained Ok value, leaving an Err value untouched
+func Map11[T1, U1 any](self Result1[T1], op func(T1) U1) Result1[U1] {
+	if self.err != nil {
+		return Err1[U1](self.err)
+	}
+	return Ok1[U1](op(self.Value()))
+}
+
+// MapOr11 Returns the provided default (if Err), or applies a function to the contained value (if Ok)
+func MapOr11[T1, U1 any](self Result1[T1], defaultV1 U1, op func(T1) Result1[U1]) Result1[U1] {
+	if self.err != nil {
 		return Ok1[U1](defaultV1)
 	}
-	return op(r.Value())
+	return op(self.Value())
 }
 
-// Then12 ...
-func Then12[T1, U1, U2 any](r Result1[T1], op func(T1) Result2[U1, U2]) Result2[U1, U2] {
-	if r.err != nil {
-		return Err2[U1, U2](r.err)
+// And12 Returns res if the result is Ok, otherwise returns the Err value of self
+func And12[T1, U1, U2 any](self Result1[T1], res Result2[U1, U2]) Result2[U1, U2] {
+	if self.IsOk() {
+		return res
 	}
-	return op(r.Value())
+	return Err2[U1, U2](self.err)
 }
 
-// Or12 ...
-func Or12[T1, U1, U2 any](r Result1[T1], defaultV1 U1, defaultV2 U2, op func(T1) Result2[U1, U2]) Result2[U1, U2] {
-	if r.err != nil {
+// AndThen12 Calls op if the result is Ok, otherwise returns the Err value of self
+func AndThen12[T1, U1, U2 any](self Result1[T1], op func(T1) Result2[U1, U2]) Result2[U1, U2] {
+	if self.IsOk() {
+		return op(self.Value())
+	}
+	return Err2[U1, U2](self.err)
+}
+
+// Map12 Maps a Result<T> to Result<U> by applying a function to a contained Ok value, leaving an Err value untouched
+func Map12[T1, U1, U2 any](self Result1[T1], op func(T1) (U1, U2)) Result2[U1, U2] {
+	if self.err != nil {
+		return Err2[U1, U2](self.err)
+	}
+	return Ok2[U1, U2](op(self.Value()))
+}
+
+// MapOr12 Returns the provided default (if Err), or applies a function to the contained value (if Ok)
+func MapOr12[T1, U1, U2 any](self Result1[T1], defaultV1 U1, defaultV2 U2, op func(T1) Result2[U1, U2]) Result2[U1, U2] {
+	if self.err != nil {
 		return Ok2[U1, U2](defaultV1, defaultV2)
 	}
-	return op(r.Value())
+	return op(self.Value())
 }
 
-// Then13 ...
-func Then13[T1, U1, U2, U3 any](r Result1[T1], op func(T1) Result3[U1, U2, U3]) Result3[U1, U2, U3] {
-	if r.err != nil {
-		return Err3[U1, U2, U3](r.err)
+// And13 Returns res if the result is Ok, otherwise returns the Err value of self
+func And13[T1, U1, U2, U3 any](self Result1[T1], res Result3[U1, U2, U3]) Result3[U1, U2, U3] {
+	if self.IsOk() {
+		return res
 	}
-	return op(r.Value())
+	return Err3[U1, U2, U3](self.err)
 }
 
-// Or13 ...
-func Or13[T1, U1, U2, U3 any](r Result1[T1], defaultV1 U1, defaultV2 U2, defaultV3 U3, op func(T1) Result3[U1, U2, U3]) Result3[U1, U2, U3] {
-	if r.err != nil {
+// AndThen13 Calls op if the result is Ok, otherwise returns the Err value of self
+func AndThen13[T1, U1, U2, U3 any](self Result1[T1], op func(T1) Result3[U1, U2, U3]) Result3[U1, U2, U3] {
+	if self.IsOk() {
+		return op(self.Value())
+	}
+	return Err3[U1, U2, U3](self.err)
+}
+
+// Map13 Maps a Result<T> to Result<U> by applying a function to a contained Ok value, leaving an Err value untouched
+func Map13[T1, U1, U2, U3 any](self Result1[T1], op func(T1) (U1, U2, U3)) Result3[U1, U2, U3] {
+	if self.err != nil {
+		return Err3[U1, U2, U3](self.err)
+	}
+	return Ok3[U1, U2, U3](op(self.Value()))
+}
+
+// MapOr13 Returns the provided default (if Err), or applies a function to the contained value (if Ok)
+func MapOr13[T1, U1, U2, U3 any](self Result1[T1], defaultV1 U1, defaultV2 U2, defaultV3 U3, op func(T1) Result3[U1, U2, U3]) Result3[U1, U2, U3] {
+	if self.err != nil {
 		return Ok3[U1, U2, U3](defaultV1, defaultV2, defaultV3)
 	}
-	return op(r.Value())
+	return op(self.Value())
 }
 
-// Then14 ...
-func Then14[T1, U1, U2, U3, U4 any](r Result1[T1], op func(T1) Result4[U1, U2, U3, U4]) Result4[U1, U2, U3, U4] {
-	if r.err != nil {
-		return Err4[U1, U2, U3, U4](r.err)
+// And14 Returns res if the result is Ok, otherwise returns the Err value of self
+func And14[T1, U1, U2, U3, U4 any](self Result1[T1], res Result4[U1, U2, U3, U4]) Result4[U1, U2, U3, U4] {
+	if self.IsOk() {
+		return res
 	}
-	return op(r.Value())
+	return Err4[U1, U2, U3, U4](self.err)
 }
 
-// Or14 ...
-func Or14[T1, U1, U2, U3, U4 any](r Result1[T1], defaultV1 U1, defaultV2 U2, defaultV3 U3, defaultV4 U4, op func(T1) Result4[U1, U2, U3, U4]) Result4[U1, U2, U3, U4] {
-	if r.err != nil {
+// AndThen14 Calls op if the result is Ok, otherwise returns the Err value of self
+func AndThen14[T1, U1, U2, U3, U4 any](self Result1[T1], op func(T1) Result4[U1, U2, U3, U4]) Result4[U1, U2, U3, U4] {
+	if self.IsOk() {
+		return op(self.Value())
+	}
+	return Err4[U1, U2, U3, U4](self.err)
+}
+
+// Map14 Maps a Result<T> to Result<U> by applying a function to a contained Ok value, leaving an Err value untouched
+func Map14[T1, U1, U2, U3, U4 any](self Result1[T1], op func(T1) (U1, U2, U3, U4)) Result4[U1, U2, U3, U4] {
+	if self.err != nil {
+		return Err4[U1, U2, U3, U4](self.err)
+	}
+	return Ok4[U1, U2, U3, U4](op(self.Value()))
+}
+
+// MapOr14 Returns the provided default (if Err), or applies a function to the contained value (if Ok)
+func MapOr14[T1, U1, U2, U3, U4 any](self Result1[T1], defaultV1 U1, defaultV2 U2, defaultV3 U3, defaultV4 U4, op func(T1) Result4[U1, U2, U3, U4]) Result4[U1, U2, U3, U4] {
+	if self.err != nil {
 		return Ok4[U1, U2, U3, U4](defaultV1, defaultV2, defaultV3, defaultV4)
 	}
-	return op(r.Value())
+	return op(self.Value())
 }
 
-// Then15 ...
-func Then15[T1, U1, U2, U3, U4, U5 any](r Result1[T1], op func(T1) Result5[U1, U2, U3, U4, U5]) Result5[U1, U2, U3, U4, U5] {
-	if r.err != nil {
-		return Err5[U1, U2, U3, U4, U5](r.err)
+// And15 Returns res if the result is Ok, otherwise returns the Err value of self
+func And15[T1, U1, U2, U3, U4, U5 any](self Result1[T1], res Result5[U1, U2, U3, U4, U5]) Result5[U1, U2, U3, U4, U5] {
+	if self.IsOk() {
+		return res
 	}
-	return op(r.Value())
+	return Err5[U1, U2, U3, U4, U5](self.err)
 }
 
-// Or15 ...
-func Or15[T1, U1, U2, U3, U4, U5 any](r Result1[T1], defaultV1 U1, defaultV2 U2, defaultV3 U3, defaultV4 U4, defaultV5 U5, op func(T1) Result5[U1, U2, U3, U4, U5]) Result5[U1, U2, U3, U4, U5] {
-	if r.err != nil {
+// AndThen15 Calls op if the result is Ok, otherwise returns the Err value of self
+func AndThen15[T1, U1, U2, U3, U4, U5 any](self Result1[T1], op func(T1) Result5[U1, U2, U3, U4, U5]) Result5[U1, U2, U3, U4, U5] {
+	if self.IsOk() {
+		return op(self.Value())
+	}
+	return Err5[U1, U2, U3, U4, U5](self.err)
+}
+
+// Map15 Maps a Result<T> to Result<U> by applying a function to a contained Ok value, leaving an Err value untouched
+func Map15[T1, U1, U2, U3, U4, U5 any](self Result1[T1], op func(T1) (U1, U2, U3, U4, U5)) Result5[U1, U2, U3, U4, U5] {
+	if self.err != nil {
+		return Err5[U1, U2, U3, U4, U5](self.err)
+	}
+	return Ok5[U1, U2, U3, U4, U5](op(self.Value()))
+}
+
+// MapOr15 Returns the provided default (if Err), or applies a function to the contained value (if Ok)
+func MapOr15[T1, U1, U2, U3, U4, U5 any](self Result1[T1], defaultV1 U1, defaultV2 U2, defaultV3 U3, defaultV4 U4, defaultV5 U5, op func(T1) Result5[U1, U2, U3, U4, U5]) Result5[U1, U2, U3, U4, U5] {
+	if self.err != nil {
 		return Ok5[U1, U2, U3, U4, U5](defaultV1, defaultV2, defaultV3, defaultV4, defaultV5)
 	}
-	return op(r.Value())
+	return op(self.Value())
 }
 
-// Then16 ...
-func Then16[T1, U1, U2, U3, U4, U5, U6 any](r Result1[T1], op func(T1) Result6[U1, U2, U3, U4, U5, U6]) Result6[U1, U2, U3, U4, U5, U6] {
-	if r.err != nil {
-		return Err6[U1, U2, U3, U4, U5, U6](r.err)
+// And16 Returns res if the result is Ok, otherwise returns the Err value of self
+func And16[T1, U1, U2, U3, U4, U5, U6 any](self Result1[T1], res Result6[U1, U2, U3, U4, U5, U6]) Result6[U1, U2, U3, U4, U5, U6] {
+	if self.IsOk() {
+		return res
 	}
-	return op(r.Value())
+	return Err6[U1, U2, U3, U4, U5, U6](self.err)
 }
 
-// Or16 ...
-func Or16[T1, U1, U2, U3, U4, U5, U6 any](r Result1[T1], defaultV1 U1, defaultV2 U2, defaultV3 U3, defaultV4 U4, defaultV5 U5, defaultV6 U6, op func(T1) Result6[U1, U2, U3, U4, U5, U6]) Result6[U1, U2, U3, U4, U5, U6] {
-	if r.err != nil {
+// AndThen16 Calls op if the result is Ok, otherwise returns the Err value of self
+func AndThen16[T1, U1, U2, U3, U4, U5, U6 any](self Result1[T1], op func(T1) Result6[U1, U2, U3, U4, U5, U6]) Result6[U1, U2, U3, U4, U5, U6] {
+	if self.IsOk() {
+		return op(self.Value())
+	}
+	return Err6[U1, U2, U3, U4, U5, U6](self.err)
+}
+
+// Map16 Maps a Result<T> to Result<U> by applying a function to a contained Ok value, leaving an Err value untouched
+func Map16[T1, U1, U2, U3, U4, U5, U6 any](self Result1[T1], op func(T1) (U1, U2, U3, U4, U5, U6)) Result6[U1, U2, U3, U4, U5, U6] {
+	if self.err != nil {
+		return Err6[U1, U2, U3, U4, U5, U6](self.err)
+	}
+	return Ok6[U1, U2, U3, U4, U5, U6](op(self.Value()))
+}
+
+// MapOr16 Returns the provided default (if Err), or applies a function to the contained value (if Ok)
+func MapOr16[T1, U1, U2, U3, U4, U5, U6 any](self Result1[T1], defaultV1 U1, defaultV2 U2, defaultV3 U3, defaultV4 U4, defaultV5 U5, defaultV6 U6, op func(T1) Result6[U1, U2, U3, U4, U5, U6]) Result6[U1, U2, U3, U4, U5, U6] {
+	if self.err != nil {
 		return Ok6[U1, U2, U3, U4, U5, U6](defaultV1, defaultV2, defaultV3, defaultV4, defaultV5, defaultV6)
 	}
-	return op(r.Value())
+	return op(self.Value())
 }
 
-// Then21 ...
-func Then21[T1, T2, U1 any](r Result2[T1, T2], op func(T1, T2) Result1[U1]) Result1[U1] {
-	if r.err != nil {
-		return Err1[U1](r.err)
+// And21 Returns res if the result is Ok, otherwise returns the Err value of self
+func And21[T1, T2, U1 any](self Result2[T1, T2], res Result1[U1]) Result1[U1] {
+	if self.IsOk() {
+		return res
 	}
-	return op(r.Value())
+	return Err1[U1](self.err)
 }
 
-// Or21 ...
-func Or21[T1, T2, U1 any](r Result2[T1, T2], defaultV1 U1, op func(T1, T2) Result1[U1]) Result1[U1] {
-	if r.err != nil {
+// AndThen21 Calls op if the result is Ok, otherwise returns the Err value of self
+func AndThen21[T1, T2, U1 any](self Result2[T1, T2], op func(T1, T2) Result1[U1]) Result1[U1] {
+	if self.IsOk() {
+		return op(self.Value())
+	}
+	return Err1[U1](self.err)
+}
+
+// Map21 Maps a Result<T> to Result<U> by applying a function to a contained Ok value, leaving an Err value untouched
+func Map21[T1, T2, U1 any](self Result2[T1, T2], op func(T1, T2) U1) Result1[U1] {
+	if self.err != nil {
+		return Err1[U1](self.err)
+	}
+	return Ok1[U1](op(self.Value()))
+}
+
+// MapOr21 Returns the provided default (if Err), or applies a function to the contained value (if Ok)
+func MapOr21[T1, T2, U1 any](self Result2[T1, T2], defaultV1 U1, op func(T1, T2) Result1[U1]) Result1[U1] {
+	if self.err != nil {
 		return Ok1[U1](defaultV1)
 	}
-	return op(r.Value())
+	return op(self.Value())
 }
 
-// Then22 ...
-func Then22[T1, T2, U1, U2 any](r Result2[T1, T2], op func(T1, T2) Result2[U1, U2]) Result2[U1, U2] {
-	if r.err != nil {
-		return Err2[U1, U2](r.err)
+// And22 Returns res if the result is Ok, otherwise returns the Err value of self
+func And22[T1, T2, U1, U2 any](self Result2[T1, T2], res Result2[U1, U2]) Result2[U1, U2] {
+	if self.IsOk() {
+		return res
 	}
-	return op(r.Value())
+	return Err2[U1, U2](self.err)
 }
 
-// Or22 ...
-func Or22[T1, T2, U1, U2 any](r Result2[T1, T2], defaultV1 U1, defaultV2 U2, op func(T1, T2) Result2[U1, U2]) Result2[U1, U2] {
-	if r.err != nil {
+// AndThen22 Calls op if the result is Ok, otherwise returns the Err value of self
+func AndThen22[T1, T2, U1, U2 any](self Result2[T1, T2], op func(T1, T2) Result2[U1, U2]) Result2[U1, U2] {
+	if self.IsOk() {
+		return op(self.Value())
+	}
+	return Err2[U1, U2](self.err)
+}
+
+// Map22 Maps a Result<T> to Result<U> by applying a function to a contained Ok value, leaving an Err value untouched
+func Map22[T1, T2, U1, U2 any](self Result2[T1, T2], op func(T1, T2) (U1, U2)) Result2[U1, U2] {
+	if self.err != nil {
+		return Err2[U1, U2](self.err)
+	}
+	return Ok2[U1, U2](op(self.Value()))
+}
+
+// MapOr22 Returns the provided default (if Err), or applies a function to the contained value (if Ok)
+func MapOr22[T1, T2, U1, U2 any](self Result2[T1, T2], defaultV1 U1, defaultV2 U2, op func(T1, T2) Result2[U1, U2]) Result2[U1, U2] {
+	if self.err != nil {
 		return Ok2[U1, U2](defaultV1, defaultV2)
 	}
-	return op(r.Value())
+	return op(self.Value())
 }
 
-// Then23 ...
-func Then23[T1, T2, U1, U2, U3 any](r Result2[T1, T2], op func(T1, T2) Result3[U1, U2, U3]) Result3[U1, U2, U3] {
-	if r.err != nil {
-		return Err3[U1, U2, U3](r.err)
+// And23 Returns res if the result is Ok, otherwise returns the Err value of self
+func And23[T1, T2, U1, U2, U3 any](self Result2[T1, T2], res Result3[U1, U2, U3]) Result3[U1, U2, U3] {
+	if self.IsOk() {
+		return res
 	}
-	return op(r.Value())
+	return Err3[U1, U2, U3](self.err)
 }
 
-// Or23 ...
-func Or23[T1, T2, U1, U2, U3 any](r Result2[T1, T2], defaultV1 U1, defaultV2 U2, defaultV3 U3, op func(T1, T2) Result3[U1, U2, U3]) Result3[U1, U2, U3] {
-	if r.err != nil {
+// AndThen23 Calls op if the result is Ok, otherwise returns the Err value of self
+func AndThen23[T1, T2, U1, U2, U3 any](self Result2[T1, T2], op func(T1, T2) Result3[U1, U2, U3]) Result3[U1, U2, U3] {
+	if self.IsOk() {
+		return op(self.Value())
+	}
+	return Err3[U1, U2, U3](self.err)
+}
+
+// Map23 Maps a Result<T> to Result<U> by applying a function to a contained Ok value, leaving an Err value untouched
+func Map23[T1, T2, U1, U2, U3 any](self Result2[T1, T2], op func(T1, T2) (U1, U2, U3)) Result3[U1, U2, U3] {
+	if self.err != nil {
+		return Err3[U1, U2, U3](self.err)
+	}
+	return Ok3[U1, U2, U3](op(self.Value()))
+}
+
+// MapOr23 Returns the provided default (if Err), or applies a function to the contained value (if Ok)
+func MapOr23[T1, T2, U1, U2, U3 any](self Result2[T1, T2], defaultV1 U1, defaultV2 U2, defaultV3 U3, op func(T1, T2) Result3[U1, U2, U3]) Result3[U1, U2, U3] {
+	if self.err != nil {
 		return Ok3[U1, U2, U3](defaultV1, defaultV2, defaultV3)
 	}
-	return op(r.Value())
+	return op(self.Value())
 }
 
-// Then24 ...
-func Then24[T1, T2, U1, U2, U3, U4 any](r Result2[T1, T2], op func(T1, T2) Result4[U1, U2, U3, U4]) Result4[U1, U2, U3, U4] {
-	if r.err != nil {
-		return Err4[U1, U2, U3, U4](r.err)
+// And24 Returns res if the result is Ok, otherwise returns the Err value of self
+func And24[T1, T2, U1, U2, U3, U4 any](self Result2[T1, T2], res Result4[U1, U2, U3, U4]) Result4[U1, U2, U3, U4] {
+	if self.IsOk() {
+		return res
 	}
-	return op(r.Value())
+	return Err4[U1, U2, U3, U4](self.err)
 }
 
-// Or24 ...
-func Or24[T1, T2, U1, U2, U3, U4 any](r Result2[T1, T2], defaultV1 U1, defaultV2 U2, defaultV3 U3, defaultV4 U4, op func(T1, T2) Result4[U1, U2, U3, U4]) Result4[U1, U2, U3, U4] {
-	if r.err != nil {
+// AndThen24 Calls op if the result is Ok, otherwise returns the Err value of self
+func AndThen24[T1, T2, U1, U2, U3, U4 any](self Result2[T1, T2], op func(T1, T2) Result4[U1, U2, U3, U4]) Result4[U1, U2, U3, U4] {
+	if self.IsOk() {
+		return op(self.Value())
+	}
+	return Err4[U1, U2, U3, U4](self.err)
+}
+
+// Map24 Maps a Result<T> to Result<U> by applying a function to a contained Ok value, leaving an Err value untouched
+func Map24[T1, T2, U1, U2, U3, U4 any](self Result2[T1, T2], op func(T1, T2) (U1, U2, U3, U4)) Result4[U1, U2, U3, U4] {
+	if self.err != nil {
+		return Err4[U1, U2, U3, U4](self.err)
+	}
+	return Ok4[U1, U2, U3, U4](op(self.Value()))
+}
+
+// MapOr24 Returns the provided default (if Err), or applies a function to the contained value (if Ok)
+func MapOr24[T1, T2, U1, U2, U3, U4 any](self Result2[T1, T2], defaultV1 U1, defaultV2 U2, defaultV3 U3, defaultV4 U4, op func(T1, T2) Result4[U1, U2, U3, U4]) Result4[U1, U2, U3, U4] {
+	if self.err != nil {
 		return Ok4[U1, U2, U3, U4](defaultV1, defaultV2, defaultV3, defaultV4)
 	}
-	return op(r.Value())
+	return op(self.Value())
 }
 
-// Then25 ...
-func Then25[T1, T2, U1, U2, U3, U4, U5 any](r Result2[T1, T2], op func(T1, T2) Result5[U1, U2, U3, U4, U5]) Result5[U1, U2, U3, U4, U5] {
-	if r.err != nil {
-		return Err5[U1, U2, U3, U4, U5](r.err)
+// And25 Returns res if the result is Ok, otherwise returns the Err value of self
+func And25[T1, T2, U1, U2, U3, U4, U5 any](self Result2[T1, T2], res Result5[U1, U2, U3, U4, U5]) Result5[U1, U2, U3, U4, U5] {
+	if self.IsOk() {
+		return res
 	}
-	return op(r.Value())
+	return Err5[U1, U2, U3, U4, U5](self.err)
 }
 
-// Or25 ...
-func Or25[T1, T2, U1, U2, U3, U4, U5 any](r Result2[T1, T2], defaultV1 U1, defaultV2 U2, defaultV3 U3, defaultV4 U4, defaultV5 U5, op func(T1, T2) Result5[U1, U2, U3, U4, U5]) Result5[U1, U2, U3, U4, U5] {
-	if r.err != nil {
+// AndThen25 Calls op if the result is Ok, otherwise returns the Err value of self
+func AndThen25[T1, T2, U1, U2, U3, U4, U5 any](self Result2[T1, T2], op func(T1, T2) Result5[U1, U2, U3, U4, U5]) Result5[U1, U2, U3, U4, U5] {
+	if self.IsOk() {
+		return op(self.Value())
+	}
+	return Err5[U1, U2, U3, U4, U5](self.err)
+}
+
+// Map25 Maps a Result<T> to Result<U> by applying a function to a contained Ok value, leaving an Err value untouched
+func Map25[T1, T2, U1, U2, U3, U4, U5 any](self Result2[T1, T2], op func(T1, T2) (U1, U2, U3, U4, U5)) Result5[U1, U2, U3, U4, U5] {
+	if self.err != nil {
+		return Err5[U1, U2, U3, U4, U5](self.err)
+	}
+	return Ok5[U1, U2, U3, U4, U5](op(self.Value()))
+}
+
+// MapOr25 Returns the provided default (if Err), or applies a function to the contained value (if Ok)
+func MapOr25[T1, T2, U1, U2, U3, U4, U5 any](self Result2[T1, T2], defaultV1 U1, defaultV2 U2, defaultV3 U3, defaultV4 U4, defaultV5 U5, op func(T1, T2) Result5[U1, U2, U3, U4, U5]) Result5[U1, U2, U3, U4, U5] {
+	if self.err != nil {
 		return Ok5[U1, U2, U3, U4, U5](defaultV1, defaultV2, defaultV3, defaultV4, defaultV5)
 	}
-	return op(r.Value())
+	return op(self.Value())
 }
 
-// Then26 ...
-func Then26[T1, T2, U1, U2, U3, U4, U5, U6 any](r Result2[T1, T2], op func(T1, T2) Result6[U1, U2, U3, U4, U5, U6]) Result6[U1, U2, U3, U4, U5, U6] {
-	if r.err != nil {
-		return Err6[U1, U2, U3, U4, U5, U6](r.err)
+// And26 Returns res if the result is Ok, otherwise returns the Err value of self
+func And26[T1, T2, U1, U2, U3, U4, U5, U6 any](self Result2[T1, T2], res Result6[U1, U2, U3, U4, U5, U6]) Result6[U1, U2, U3, U4, U5, U6] {
+	if self.IsOk() {
+		return res
 	}
-	return op(r.Value())
+	return Err6[U1, U2, U3, U4, U5, U6](self.err)
 }
 
-// Or26 ...
-func Or26[T1, T2, U1, U2, U3, U4, U5, U6 any](r Result2[T1, T2], defaultV1 U1, defaultV2 U2, defaultV3 U3, defaultV4 U4, defaultV5 U5, defaultV6 U6, op func(T1, T2) Result6[U1, U2, U3, U4, U5, U6]) Result6[U1, U2, U3, U4, U5, U6] {
-	if r.err != nil {
+// AndThen26 Calls op if the result is Ok, otherwise returns the Err value of self
+func AndThen26[T1, T2, U1, U2, U3, U4, U5, U6 any](self Result2[T1, T2], op func(T1, T2) Result6[U1, U2, U3, U4, U5, U6]) Result6[U1, U2, U3, U4, U5, U6] {
+	if self.IsOk() {
+		return op(self.Value())
+	}
+	return Err6[U1, U2, U3, U4, U5, U6](self.err)
+}
+
+// Map26 Maps a Result<T> to Result<U> by applying a function to a contained Ok value, leaving an Err value untouched
+func Map26[T1, T2, U1, U2, U3, U4, U5, U6 any](self Result2[T1, T2], op func(T1, T2) (U1, U2, U3, U4, U5, U6)) Result6[U1, U2, U3, U4, U5, U6] {
+	if self.err != nil {
+		return Err6[U1, U2, U3, U4, U5, U6](self.err)
+	}
+	return Ok6[U1, U2, U3, U4, U5, U6](op(self.Value()))
+}
+
+// MapOr26 Returns the provided default (if Err), or applies a function to the contained value (if Ok)
+func MapOr26[T1, T2, U1, U2, U3, U4, U5, U6 any](self Result2[T1, T2], defaultV1 U1, defaultV2 U2, defaultV3 U3, defaultV4 U4, defaultV5 U5, defaultV6 U6, op func(T1, T2) Result6[U1, U2, U3, U4, U5, U6]) Result6[U1, U2, U3, U4, U5, U6] {
+	if self.err != nil {
 		return Ok6[U1, U2, U3, U4, U5, U6](defaultV1, defaultV2, defaultV3, defaultV4, defaultV5, defaultV6)
 	}
-	return op(r.Value())
+	return op(self.Value())
 }
 
-// Then31 ...
-func Then31[T1, T2, T3, U1 any](r Result3[T1, T2, T3], op func(T1, T2, T3) Result1[U1]) Result1[U1] {
-	if r.err != nil {
-		return Err1[U1](r.err)
+// And31 Returns res if the result is Ok, otherwise returns the Err value of self
+func And31[T1, T2, T3, U1 any](self Result3[T1, T2, T3], res Result1[U1]) Result1[U1] {
+	if self.IsOk() {
+		return res
 	}
-	return op(r.Value())
+	return Err1[U1](self.err)
 }
 
-// Or31 ...
-func Or31[T1, T2, T3, U1 any](r Result3[T1, T2, T3], defaultV1 U1, op func(T1, T2, T3) Result1[U1]) Result1[U1] {
-	if r.err != nil {
+// AndThen31 Calls op if the result is Ok, otherwise returns the Err value of self
+func AndThen31[T1, T2, T3, U1 any](self Result3[T1, T2, T3], op func(T1, T2, T3) Result1[U1]) Result1[U1] {
+	if self.IsOk() {
+		return op(self.Value())
+	}
+	return Err1[U1](self.err)
+}
+
+// Map31 Maps a Result<T> to Result<U> by applying a function to a contained Ok value, leaving an Err value untouched
+func Map31[T1, T2, T3, U1 any](self Result3[T1, T2, T3], op func(T1, T2, T3) U1) Result1[U1] {
+	if self.err != nil {
+		return Err1[U1](self.err)
+	}
+	return Ok1[U1](op(self.Value()))
+}
+
+// MapOr31 Returns the provided default (if Err), or applies a function to the contained value (if Ok)
+func MapOr31[T1, T2, T3, U1 any](self Result3[T1, T2, T3], defaultV1 U1, op func(T1, T2, T3) Result1[U1]) Result1[U1] {
+	if self.err != nil {
 		return Ok1[U1](defaultV1)
 	}
-	return op(r.Value())
+	return op(self.Value())
 }
 
-// Then32 ...
-func Then32[T1, T2, T3, U1, U2 any](r Result3[T1, T2, T3], op func(T1, T2, T3) Result2[U1, U2]) Result2[U1, U2] {
-	if r.err != nil {
-		return Err2[U1, U2](r.err)
+// And32 Returns res if the result is Ok, otherwise returns the Err value of self
+func And32[T1, T2, T3, U1, U2 any](self Result3[T1, T2, T3], res Result2[U1, U2]) Result2[U1, U2] {
+	if self.IsOk() {
+		return res
 	}
-	return op(r.Value())
+	return Err2[U1, U2](self.err)
 }
 
-// Or32 ...
-func Or32[T1, T2, T3, U1, U2 any](r Result3[T1, T2, T3], defaultV1 U1, defaultV2 U2, op func(T1, T2, T3) Result2[U1, U2]) Result2[U1, U2] {
-	if r.err != nil {
+// AndThen32 Calls op if the result is Ok, otherwise returns the Err value of self
+func AndThen32[T1, T2, T3, U1, U2 any](self Result3[T1, T2, T3], op func(T1, T2, T3) Result2[U1, U2]) Result2[U1, U2] {
+	if self.IsOk() {
+		return op(self.Value())
+	}
+	return Err2[U1, U2](self.err)
+}
+
+// Map32 Maps a Result<T> to Result<U> by applying a function to a contained Ok value, leaving an Err value untouched
+func Map32[T1, T2, T3, U1, U2 any](self Result3[T1, T2, T3], op func(T1, T2, T3) (U1, U2)) Result2[U1, U2] {
+	if self.err != nil {
+		return Err2[U1, U2](self.err)
+	}
+	return Ok2[U1, U2](op(self.Value()))
+}
+
+// MapOr32 Returns the provided default (if Err), or applies a function to the contained value (if Ok)
+func MapOr32[T1, T2, T3, U1, U2 any](self Result3[T1, T2, T3], defaultV1 U1, defaultV2 U2, op func(T1, T2, T3) Result2[U1, U2]) Result2[U1, U2] {
+	if self.err != nil {
 		return Ok2[U1, U2](defaultV1, defaultV2)
 	}
-	return op(r.Value())
+	return op(self.Value())
 }
 
-// Then33 ...
-func Then33[T1, T2, T3, U1, U2, U3 any](r Result3[T1, T2, T3], op func(T1, T2, T3) Result3[U1, U2, U3]) Result3[U1, U2, U3] {
-	if r.err != nil {
-		return Err3[U1, U2, U3](r.err)
+// And33 Returns res if the result is Ok, otherwise returns the Err value of self
+func And33[T1, T2, T3, U1, U2, U3 any](self Result3[T1, T2, T3], res Result3[U1, U2, U3]) Result3[U1, U2, U3] {
+	if self.IsOk() {
+		return res
 	}
-	return op(r.Value())
+	return Err3[U1, U2, U3](self.err)
 }
 
-// Or33 ...
-func Or33[T1, T2, T3, U1, U2, U3 any](r Result3[T1, T2, T3], defaultV1 U1, defaultV2 U2, defaultV3 U3, op func(T1, T2, T3) Result3[U1, U2, U3]) Result3[U1, U2, U3] {
-	if r.err != nil {
+// AndThen33 Calls op if the result is Ok, otherwise returns the Err value of self
+func AndThen33[T1, T2, T3, U1, U2, U3 any](self Result3[T1, T2, T3], op func(T1, T2, T3) Result3[U1, U2, U3]) Result3[U1, U2, U3] {
+	if self.IsOk() {
+		return op(self.Value())
+	}
+	return Err3[U1, U2, U3](self.err)
+}
+
+// Map33 Maps a Result<T> to Result<U> by applying a function to a contained Ok value, leaving an Err value untouched
+func Map33[T1, T2, T3, U1, U2, U3 any](self Result3[T1, T2, T3], op func(T1, T2, T3) (U1, U2, U3)) Result3[U1, U2, U3] {
+	if self.err != nil {
+		return Err3[U1, U2, U3](self.err)
+	}
+	return Ok3[U1, U2, U3](op(self.Value()))
+}
+
+// MapOr33 Returns the provided default (if Err), or applies a function to the contained value (if Ok)
+func MapOr33[T1, T2, T3, U1, U2, U3 any](self Result3[T1, T2, T3], defaultV1 U1, defaultV2 U2, defaultV3 U3, op func(T1, T2, T3) Result3[U1, U2, U3]) Result3[U1, U2, U3] {
+	if self.err != nil {
 		return Ok3[U1, U2, U3](defaultV1, defaultV2, defaultV3)
 	}
-	return op(r.Value())
+	return op(self.Value())
 }
 
-// Then34 ...
-func Then34[T1, T2, T3, U1, U2, U3, U4 any](r Result3[T1, T2, T3], op func(T1, T2, T3) Result4[U1, U2, U3, U4]) Result4[U1, U2, U3, U4] {
-	if r.err != nil {
-		return Err4[U1, U2, U3, U4](r.err)
+// And34 Returns res if the result is Ok, otherwise returns the Err value of self
+func And34[T1, T2, T3, U1, U2, U3, U4 any](self Result3[T1, T2, T3], res Result4[U1, U2, U3, U4]) Result4[U1, U2, U3, U4] {
+	if self.IsOk() {
+		return res
 	}
-	return op(r.Value())
+	return Err4[U1, U2, U3, U4](self.err)
 }
 
-// Or34 ...
-func Or34[T1, T2, T3, U1, U2, U3, U4 any](r Result3[T1, T2, T3], defaultV1 U1, defaultV2 U2, defaultV3 U3, defaultV4 U4, op func(T1, T2, T3) Result4[U1, U2, U3, U4]) Result4[U1, U2, U3, U4] {
-	if r.err != nil {
+// AndThen34 Calls op if the result is Ok, otherwise returns the Err value of self
+func AndThen34[T1, T2, T3, U1, U2, U3, U4 any](self Result3[T1, T2, T3], op func(T1, T2, T3) Result4[U1, U2, U3, U4]) Result4[U1, U2, U3, U4] {
+	if self.IsOk() {
+		return op(self.Value())
+	}
+	return Err4[U1, U2, U3, U4](self.err)
+}
+
+// Map34 Maps a Result<T> to Result<U> by applying a function to a contained Ok value, leaving an Err value untouched
+func Map34[T1, T2, T3, U1, U2, U3, U4 any](self Result3[T1, T2, T3], op func(T1, T2, T3) (U1, U2, U3, U4)) Result4[U1, U2, U3, U4] {
+	if self.err != nil {
+		return Err4[U1, U2, U3, U4](self.err)
+	}
+	return Ok4[U1, U2, U3, U4](op(self.Value()))
+}
+
+// MapOr34 Returns the provided default (if Err), or applies a function to the contained value (if Ok)
+func MapOr34[T1, T2, T3, U1, U2, U3, U4 any](self Result3[T1, T2, T3], defaultV1 U1, defaultV2 U2, defaultV3 U3, defaultV4 U4, op func(T1, T2, T3) Result4[U1, U2, U3, U4]) Result4[U1, U2, U3, U4] {
+	if self.err != nil {
 		return Ok4[U1, U2, U3, U4](defaultV1, defaultV2, defaultV3, defaultV4)
 	}
-	return op(r.Value())
+	return op(self.Value())
 }
 
-// Then35 ...
-func Then35[T1, T2, T3, U1, U2, U3, U4, U5 any](r Result3[T1, T2, T3], op func(T1, T2, T3) Result5[U1, U2, U3, U4, U5]) Result5[U1, U2, U3, U4, U5] {
-	if r.err != nil {
-		return Err5[U1, U2, U3, U4, U5](r.err)
+// And35 Returns res if the result is Ok, otherwise returns the Err value of self
+func And35[T1, T2, T3, U1, U2, U3, U4, U5 any](self Result3[T1, T2, T3], res Result5[U1, U2, U3, U4, U5]) Result5[U1, U2, U3, U4, U5] {
+	if self.IsOk() {
+		return res
 	}
-	return op(r.Value())
+	return Err5[U1, U2, U3, U4, U5](self.err)
 }
 
-// Or35 ...
-func Or35[T1, T2, T3, U1, U2, U3, U4, U5 any](r Result3[T1, T2, T3], defaultV1 U1, defaultV2 U2, defaultV3 U3, defaultV4 U4, defaultV5 U5, op func(T1, T2, T3) Result5[U1, U2, U3, U4, U5]) Result5[U1, U2, U3, U4, U5] {
-	if r.err != nil {
+// AndThen35 Calls op if the result is Ok, otherwise returns the Err value of self
+func AndThen35[T1, T2, T3, U1, U2, U3, U4, U5 any](self Result3[T1, T2, T3], op func(T1, T2, T3) Result5[U1, U2, U3, U4, U5]) Result5[U1, U2, U3, U4, U5] {
+	if self.IsOk() {
+		return op(self.Value())
+	}
+	return Err5[U1, U2, U3, U4, U5](self.err)
+}
+
+// Map35 Maps a Result<T> to Result<U> by applying a function to a contained Ok value, leaving an Err value untouched
+func Map35[T1, T2, T3, U1, U2, U3, U4, U5 any](self Result3[T1, T2, T3], op func(T1, T2, T3) (U1, U2, U3, U4, U5)) Result5[U1, U2, U3, U4, U5] {
+	if self.err != nil {
+		return Err5[U1, U2, U3, U4, U5](self.err)
+	}
+	return Ok5[U1, U2, U3, U4, U5](op(self.Value()))
+}
+
+// MapOr35 Returns the provided default (if Err), or applies a function to the contained value (if Ok)
+func MapOr35[T1, T2, T3, U1, U2, U3, U4, U5 any](self Result3[T1, T2, T3], defaultV1 U1, defaultV2 U2, defaultV3 U3, defaultV4 U4, defaultV5 U5, op func(T1, T2, T3) Result5[U1, U2, U3, U4, U5]) Result5[U1, U2, U3, U4, U5] {
+	if self.err != nil {
 		return Ok5[U1, U2, U3, U4, U5](defaultV1, defaultV2, defaultV3, defaultV4, defaultV5)
 	}
-	return op(r.Value())
+	return op(self.Value())
 }
 
-// Then36 ...
-func Then36[T1, T2, T3, U1, U2, U3, U4, U5, U6 any](r Result3[T1, T2, T3], op func(T1, T2, T3) Result6[U1, U2, U3, U4, U5, U6]) Result6[U1, U2, U3, U4, U5, U6] {
-	if r.err != nil {
-		return Err6[U1, U2, U3, U4, U5, U6](r.err)
+// And36 Returns res if the result is Ok, otherwise returns the Err value of self
+func And36[T1, T2, T3, U1, U2, U3, U4, U5, U6 any](self Result3[T1, T2, T3], res Result6[U1, U2, U3, U4, U5, U6]) Result6[U1, U2, U3, U4, U5, U6] {
+	if self.IsOk() {
+		return res
 	}
-	return op(r.Value())
+	return Err6[U1, U2, U3, U4, U5, U6](self.err)
 }
 
-// Or36 ...
-func Or36[T1, T2, T3, U1, U2, U3, U4, U5, U6 any](r Result3[T1, T2, T3], defaultV1 U1, defaultV2 U2, defaultV3 U3, defaultV4 U4, defaultV5 U5, defaultV6 U6, op func(T1, T2, T3) Result6[U1, U2, U3, U4, U5, U6]) Result6[U1, U2, U3, U4, U5, U6] {
-	if r.err != nil {
+// AndThen36 Calls op if the result is Ok, otherwise returns the Err value of self
+func AndThen36[T1, T2, T3, U1, U2, U3, U4, U5, U6 any](self Result3[T1, T2, T3], op func(T1, T2, T3) Result6[U1, U2, U3, U4, U5, U6]) Result6[U1, U2, U3, U4, U5, U6] {
+	if self.IsOk() {
+		return op(self.Value())
+	}
+	return Err6[U1, U2, U3, U4, U5, U6](self.err)
+}
+
+// Map36 Maps a Result<T> to Result<U> by applying a function to a contained Ok value, leaving an Err value untouched
+func Map36[T1, T2, T3, U1, U2, U3, U4, U5, U6 any](self Result3[T1, T2, T3], op func(T1, T2, T3) (U1, U2, U3, U4, U5, U6)) Result6[U1, U2, U3, U4, U5, U6] {
+	if self.err != nil {
+		return Err6[U1, U2, U3, U4, U5, U6](self.err)
+	}
+	return Ok6[U1, U2, U3, U4, U5, U6](op(self.Value()))
+}
+
+// MapOr36 Returns the provided default (if Err), or applies a function to the contained value (if Ok)
+func MapOr36[T1, T2, T3, U1, U2, U3, U4, U5, U6 any](self Result3[T1, T2, T3], defaultV1 U1, defaultV2 U2, defaultV3 U3, defaultV4 U4, defaultV5 U5, defaultV6 U6, op func(T1, T2, T3) Result6[U1, U2, U3, U4, U5, U6]) Result6[U1, U2, U3, U4, U5, U6] {
+	if self.err != nil {
 		return Ok6[U1, U2, U3, U4, U5, U6](defaultV1, defaultV2, defaultV3, defaultV4, defaultV5, defaultV6)
 	}
-	return op(r.Value())
+	return op(self.Value())
 }
 
-// Then41 ...
-func Then41[T1, T2, T3, T4, U1 any](r Result4[T1, T2, T3, T4], op func(T1, T2, T3, T4) Result1[U1]) Result1[U1] {
-	if r.err != nil {
-		return Err1[U1](r.err)
+// And41 Returns res if the result is Ok, otherwise returns the Err value of self
+func And41[T1, T2, T3, T4, U1 any](self Result4[T1, T2, T3, T4], res Result1[U1]) Result1[U1] {
+	if self.IsOk() {
+		return res
 	}
-	return op(r.Value())
+	return Err1[U1](self.err)
 }
 
-// Or41 ...
-func Or41[T1, T2, T3, T4, U1 any](r Result4[T1, T2, T3, T4], defaultV1 U1, op func(T1, T2, T3, T4) Result1[U1]) Result1[U1] {
-	if r.err != nil {
+// AndThen41 Calls op if the result is Ok, otherwise returns the Err value of self
+func AndThen41[T1, T2, T3, T4, U1 any](self Result4[T1, T2, T3, T4], op func(T1, T2, T3, T4) Result1[U1]) Result1[U1] {
+	if self.IsOk() {
+		return op(self.Value())
+	}
+	return Err1[U1](self.err)
+}
+
+// Map41 Maps a Result<T> to Result<U> by applying a function to a contained Ok value, leaving an Err value untouched
+func Map41[T1, T2, T3, T4, U1 any](self Result4[T1, T2, T3, T4], op func(T1, T2, T3, T4) U1) Result1[U1] {
+	if self.err != nil {
+		return Err1[U1](self.err)
+	}
+	return Ok1[U1](op(self.Value()))
+}
+
+// MapOr41 Returns the provided default (if Err), or applies a function to the contained value (if Ok)
+func MapOr41[T1, T2, T3, T4, U1 any](self Result4[T1, T2, T3, T4], defaultV1 U1, op func(T1, T2, T3, T4) Result1[U1]) Result1[U1] {
+	if self.err != nil {
 		return Ok1[U1](defaultV1)
 	}
-	return op(r.Value())
+	return op(self.Value())
 }
 
-// Then42 ...
-func Then42[T1, T2, T3, T4, U1, U2 any](r Result4[T1, T2, T3, T4], op func(T1, T2, T3, T4) Result2[U1, U2]) Result2[U1, U2] {
-	if r.err != nil {
-		return Err2[U1, U2](r.err)
+// And42 Returns res if the result is Ok, otherwise returns the Err value of self
+func And42[T1, T2, T3, T4, U1, U2 any](self Result4[T1, T2, T3, T4], res Result2[U1, U2]) Result2[U1, U2] {
+	if self.IsOk() {
+		return res
 	}
-	return op(r.Value())
+	return Err2[U1, U2](self.err)
 }
 
-// Or42 ...
-func Or42[T1, T2, T3, T4, U1, U2 any](r Result4[T1, T2, T3, T4], defaultV1 U1, defaultV2 U2, op func(T1, T2, T3, T4) Result2[U1, U2]) Result2[U1, U2] {
-	if r.err != nil {
+// AndThen42 Calls op if the result is Ok, otherwise returns the Err value of self
+func AndThen42[T1, T2, T3, T4, U1, U2 any](self Result4[T1, T2, T3, T4], op func(T1, T2, T3, T4) Result2[U1, U2]) Result2[U1, U2] {
+	if self.IsOk() {
+		return op(self.Value())
+	}
+	return Err2[U1, U2](self.err)
+}
+
+// Map42 Maps a Result<T> to Result<U> by applying a function to a contained Ok value, leaving an Err value untouched
+func Map42[T1, T2, T3, T4, U1, U2 any](self Result4[T1, T2, T3, T4], op func(T1, T2, T3, T4) (U1, U2)) Result2[U1, U2] {
+	if self.err != nil {
+		return Err2[U1, U2](self.err)
+	}
+	return Ok2[U1, U2](op(self.Value()))
+}
+
+// MapOr42 Returns the provided default (if Err), or applies a function to the contained value (if Ok)
+func MapOr42[T1, T2, T3, T4, U1, U2 any](self Result4[T1, T2, T3, T4], defaultV1 U1, defaultV2 U2, op func(T1, T2, T3, T4) Result2[U1, U2]) Result2[U1, U2] {
+	if self.err != nil {
 		return Ok2[U1, U2](defaultV1, defaultV2)
 	}
-	return op(r.Value())
+	return op(self.Value())
 }
 
-// Then43 ...
-func Then43[T1, T2, T3, T4, U1, U2, U3 any](r Result4[T1, T2, T3, T4], op func(T1, T2, T3, T4) Result3[U1, U2, U3]) Result3[U1, U2, U3] {
-	if r.err != nil {
-		return Err3[U1, U2, U3](r.err)
+// And43 Returns res if the result is Ok, otherwise returns the Err value of self
+func And43[T1, T2, T3, T4, U1, U2, U3 any](self Result4[T1, T2, T3, T4], res Result3[U1, U2, U3]) Result3[U1, U2, U3] {
+	if self.IsOk() {
+		return res
 	}
-	return op(r.Value())
+	return Err3[U1, U2, U3](self.err)
 }
 
-// Or43 ...
-func Or43[T1, T2, T3, T4, U1, U2, U3 any](r Result4[T1, T2, T3, T4], defaultV1 U1, defaultV2 U2, defaultV3 U3, op func(T1, T2, T3, T4) Result3[U1, U2, U3]) Result3[U1, U2, U3] {
-	if r.err != nil {
+// AndThen43 Calls op if the result is Ok, otherwise returns the Err value of self
+func AndThen43[T1, T2, T3, T4, U1, U2, U3 any](self Result4[T1, T2, T3, T4], op func(T1, T2, T3, T4) Result3[U1, U2, U3]) Result3[U1, U2, U3] {
+	if self.IsOk() {
+		return op(self.Value())
+	}
+	return Err3[U1, U2, U3](self.err)
+}
+
+// Map43 Maps a Result<T> to Result<U> by applying a function to a contained Ok value, leaving an Err value untouched
+func Map43[T1, T2, T3, T4, U1, U2, U3 any](self Result4[T1, T2, T3, T4], op func(T1, T2, T3, T4) (U1, U2, U3)) Result3[U1, U2, U3] {
+	if self.err != nil {
+		return Err3[U1, U2, U3](self.err)
+	}
+	return Ok3[U1, U2, U3](op(self.Value()))
+}
+
+// MapOr43 Returns the provided default (if Err), or applies a function to the contained value (if Ok)
+func MapOr43[T1, T2, T3, T4, U1, U2, U3 any](self Result4[T1, T2, T3, T4], defaultV1 U1, defaultV2 U2, defaultV3 U3, op func(T1, T2, T3, T4) Result3[U1, U2, U3]) Result3[U1, U2, U3] {
+	if self.err != nil {
 		return Ok3[U1, U2, U3](defaultV1, defaultV2, defaultV3)
 	}
-	return op(r.Value())
+	return op(self.Value())
 }
 
-// Then44 ...
-func Then44[T1, T2, T3, T4, U1, U2, U3, U4 any](r Result4[T1, T2, T3, T4], op func(T1, T2, T3, T4) Result4[U1, U2, U3, U4]) Result4[U1, U2, U3, U4] {
-	if r.err != nil {
-		return Err4[U1, U2, U3, U4](r.err)
+// And44 Returns res if the result is Ok, otherwise returns the Err value of self
+func And44[T1, T2, T3, T4, U1, U2, U3, U4 any](self Result4[T1, T2, T3, T4], res Result4[U1, U2, U3, U4]) Result4[U1, U2, U3, U4] {
+	if self.IsOk() {
+		return res
 	}
-	return op(r.Value())
+	return Err4[U1, U2, U3, U4](self.err)
 }
 
-// Or44 ...
-func Or44[T1, T2, T3, T4, U1, U2, U3, U4 any](r Result4[T1, T2, T3, T4], defaultV1 U1, defaultV2 U2, defaultV3 U3, defaultV4 U4, op func(T1, T2, T3, T4) Result4[U1, U2, U3, U4]) Result4[U1, U2, U3, U4] {
-	if r.err != nil {
+// AndThen44 Calls op if the result is Ok, otherwise returns the Err value of self
+func AndThen44[T1, T2, T3, T4, U1, U2, U3, U4 any](self Result4[T1, T2, T3, T4], op func(T1, T2, T3, T4) Result4[U1, U2, U3, U4]) Result4[U1, U2, U3, U4] {
+	if self.IsOk() {
+		return op(self.Value())
+	}
+	return Err4[U1, U2, U3, U4](self.err)
+}
+
+// Map44 Maps a Result<T> to Result<U> by applying a function to a contained Ok value, leaving an Err value untouched
+func Map44[T1, T2, T3, T4, U1, U2, U3, U4 any](self Result4[T1, T2, T3, T4], op func(T1, T2, T3, T4) (U1, U2, U3, U4)) Result4[U1, U2, U3, U4] {
+	if self.err != nil {
+		return Err4[U1, U2, U3, U4](self.err)
+	}
+	return Ok4[U1, U2, U3, U4](op(self.Value()))
+}
+
+// MapOr44 Returns the provided default (if Err), or applies a function to the contained value (if Ok)
+func MapOr44[T1, T2, T3, T4, U1, U2, U3, U4 any](self Result4[T1, T2, T3, T4], defaultV1 U1, defaultV2 U2, defaultV3 U3, defaultV4 U4, op func(T1, T2, T3, T4) Result4[U1, U2, U3, U4]) Result4[U1, U2, U3, U4] {
+	if self.err != nil {
 		return Ok4[U1, U2, U3, U4](defaultV1, defaultV2, defaultV3, defaultV4)
 	}
-	return op(r.Value())
+	return op(self.Value())
 }
 
-// Then45 ...
-func Then45[T1, T2, T3, T4, U1, U2, U3, U4, U5 any](r Result4[T1, T2, T3, T4], op func(T1, T2, T3, T4) Result5[U1, U2, U3, U4, U5]) Result5[U1, U2, U3, U4, U5] {
-	if r.err != nil {
-		return Err5[U1, U2, U3, U4, U5](r.err)
+// And45 Returns res if the result is Ok, otherwise returns the Err value of self
+func And45[T1, T2, T3, T4, U1, U2, U3, U4, U5 any](self Result4[T1, T2, T3, T4], res Result5[U1, U2, U3, U4, U5]) Result5[U1, U2, U3, U4, U5] {
+	if self.IsOk() {
+		return res
 	}
-	return op(r.Value())
+	return Err5[U1, U2, U3, U4, U5](self.err)
 }
 
-// Or45 ...
-func Or45[T1, T2, T3, T4, U1, U2, U3, U4, U5 any](r Result4[T1, T2, T3, T4], defaultV1 U1, defaultV2 U2, defaultV3 U3, defaultV4 U4, defaultV5 U5, op func(T1, T2, T3, T4) Result5[U1, U2, U3, U4, U5]) Result5[U1, U2, U3, U4, U5] {
-	if r.err != nil {
+// AndThen45 Calls op if the result is Ok, otherwise returns the Err value of self
+func AndThen45[T1, T2, T3, T4, U1, U2, U3, U4, U5 any](self Result4[T1, T2, T3, T4], op func(T1, T2, T3, T4) Result5[U1, U2, U3, U4, U5]) Result5[U1, U2, U3, U4, U5] {
+	if self.IsOk() {
+		return op(self.Value())
+	}
+	return Err5[U1, U2, U3, U4, U5](self.err)
+}
+
+// Map45 Maps a Result<T> to Result<U> by applying a function to a contained Ok value, leaving an Err value untouched
+func Map45[T1, T2, T3, T4, U1, U2, U3, U4, U5 any](self Result4[T1, T2, T3, T4], op func(T1, T2, T3, T4) (U1, U2, U3, U4, U5)) Result5[U1, U2, U3, U4, U5] {
+	if self.err != nil {
+		return Err5[U1, U2, U3, U4, U5](self.err)
+	}
+	return Ok5[U1, U2, U3, U4, U5](op(self.Value()))
+}
+
+// MapOr45 Returns the provided default (if Err), or applies a function to the contained value (if Ok)
+func MapOr45[T1, T2, T3, T4, U1, U2, U3, U4, U5 any](self Result4[T1, T2, T3, T4], defaultV1 U1, defaultV2 U2, defaultV3 U3, defaultV4 U4, defaultV5 U5, op func(T1, T2, T3, T4) Result5[U1, U2, U3, U4, U5]) Result5[U1, U2, U3, U4, U5] {
+	if self.err != nil {
 		return Ok5[U1, U2, U3, U4, U5](defaultV1, defaultV2, defaultV3, defaultV4, defaultV5)
 	}
-	return op(r.Value())
+	return op(self.Value())
 }
 
-// Then46 ...
-func Then46[T1, T2, T3, T4, U1, U2, U3, U4, U5, U6 any](r Result4[T1, T2, T3, T4], op func(T1, T2, T3, T4) Result6[U1, U2, U3, U4, U5, U6]) Result6[U1, U2, U3, U4, U5, U6] {
-	if r.err != nil {
-		return Err6[U1, U2, U3, U4, U5, U6](r.err)
+// And46 Returns res if the result is Ok, otherwise returns the Err value of self
+func And46[T1, T2, T3, T4, U1, U2, U3, U4, U5, U6 any](self Result4[T1, T2, T3, T4], res Result6[U1, U2, U3, U4, U5, U6]) Result6[U1, U2, U3, U4, U5, U6] {
+	if self.IsOk() {
+		return res
 	}
-	return op(r.Value())
+	return Err6[U1, U2, U3, U4, U5, U6](self.err)
 }
 
-// Or46 ...
-func Or46[T1, T2, T3, T4, U1, U2, U3, U4, U5, U6 any](r Result4[T1, T2, T3, T4], defaultV1 U1, defaultV2 U2, defaultV3 U3, defaultV4 U4, defaultV5 U5, defaultV6 U6, op func(T1, T2, T3, T4) Result6[U1, U2, U3, U4, U5, U6]) Result6[U1, U2, U3, U4, U5, U6] {
-	if r.err != nil {
+// AndThen46 Calls op if the result is Ok, otherwise returns the Err value of self
+func AndThen46[T1, T2, T3, T4, U1, U2, U3, U4, U5, U6 any](self Result4[T1, T2, T3, T4], op func(T1, T2, T3, T4) Result6[U1, U2, U3, U4, U5, U6]) Result6[U1, U2, U3, U4, U5, U6] {
+	if self.IsOk() {
+		return op(self.Value())
+	}
+	return Err6[U1, U2, U3, U4, U5, U6](self.err)
+}
+
+// Map46 Maps a Result<T> to Result<U> by applying a function to a contained Ok value, leaving an Err value untouched
+func Map46[T1, T2, T3, T4, U1, U2, U3, U4, U5, U6 any](self Result4[T1, T2, T3, T4], op func(T1, T2, T3, T4) (U1, U2, U3, U4, U5, U6)) Result6[U1, U2, U3, U4, U5, U6] {
+	if self.err != nil {
+		return Err6[U1, U2, U3, U4, U5, U6](self.err)
+	}
+	return Ok6[U1, U2, U3, U4, U5, U6](op(self.Value()))
+}
+
+// MapOr46 Returns the provided default (if Err), or applies a function to the contained value (if Ok)
+func MapOr46[T1, T2, T3, T4, U1, U2, U3, U4, U5, U6 any](self Result4[T1, T2, T3, T4], defaultV1 U1, defaultV2 U2, defaultV3 U3, defaultV4 U4, defaultV5 U5, defaultV6 U6, op func(T1, T2, T3, T4) Result6[U1, U2, U3, U4, U5, U6]) Result6[U1, U2, U3, U4, U5, U6] {
+	if self.err != nil {
 		return Ok6[U1, U2, U3, U4, U5, U6](defaultV1, defaultV2, defaultV3, defaultV4, defaultV5, defaultV6)
 	}
-	return op(r.Value())
+	return op(self.Value())
 }
 
-// Then51 ...
-func Then51[T1, T2, T3, T4, T5, U1 any](r Result5[T1, T2, T3, T4, T5], op func(T1, T2, T3, T4, T5) Result1[U1]) Result1[U1] {
-	if r.err != nil {
-		return Err1[U1](r.err)
+// And51 Returns res if the result is Ok, otherwise returns the Err value of self
+func And51[T1, T2, T3, T4, T5, U1 any](self Result5[T1, T2, T3, T4, T5], res Result1[U1]) Result1[U1] {
+	if self.IsOk() {
+		return res
 	}
-	return op(r.Value())
+	return Err1[U1](self.err)
 }
 
-// Or51 ...
-func Or51[T1, T2, T3, T4, T5, U1 any](r Result5[T1, T2, T3, T4, T5], defaultV1 U1, op func(T1, T2, T3, T4, T5) Result1[U1]) Result1[U1] {
-	if r.err != nil {
+// AndThen51 Calls op if the result is Ok, otherwise returns the Err value of self
+func AndThen51[T1, T2, T3, T4, T5, U1 any](self Result5[T1, T2, T3, T4, T5], op func(T1, T2, T3, T4, T5) Result1[U1]) Result1[U1] {
+	if self.IsOk() {
+		return op(self.Value())
+	}
+	return Err1[U1](self.err)
+}
+
+// Map51 Maps a Result<T> to Result<U> by applying a function to a contained Ok value, leaving an Err value untouched
+func Map51[T1, T2, T3, T4, T5, U1 any](self Result5[T1, T2, T3, T4, T5], op func(T1, T2, T3, T4, T5) U1) Result1[U1] {
+	if self.err != nil {
+		return Err1[U1](self.err)
+	}
+	return Ok1[U1](op(self.Value()))
+}
+
+// MapOr51 Returns the provided default (if Err), or applies a function to the contained value (if Ok)
+func MapOr51[T1, T2, T3, T4, T5, U1 any](self Result5[T1, T2, T3, T4, T5], defaultV1 U1, op func(T1, T2, T3, T4, T5) Result1[U1]) Result1[U1] {
+	if self.err != nil {
 		return Ok1[U1](defaultV1)
 	}
-	return op(r.Value())
+	return op(self.Value())
 }
 
-// Then52 ...
-func Then52[T1, T2, T3, T4, T5, U1, U2 any](r Result5[T1, T2, T3, T4, T5], op func(T1, T2, T3, T4, T5) Result2[U1, U2]) Result2[U1, U2] {
-	if r.err != nil {
-		return Err2[U1, U2](r.err)
+// And52 Returns res if the result is Ok, otherwise returns the Err value of self
+func And52[T1, T2, T3, T4, T5, U1, U2 any](self Result5[T1, T2, T3, T4, T5], res Result2[U1, U2]) Result2[U1, U2] {
+	if self.IsOk() {
+		return res
 	}
-	return op(r.Value())
+	return Err2[U1, U2](self.err)
 }
 
-// Or52 ...
-func Or52[T1, T2, T3, T4, T5, U1, U2 any](r Result5[T1, T2, T3, T4, T5], defaultV1 U1, defaultV2 U2, op func(T1, T2, T3, T4, T5) Result2[U1, U2]) Result2[U1, U2] {
-	if r.err != nil {
+// AndThen52 Calls op if the result is Ok, otherwise returns the Err value of self
+func AndThen52[T1, T2, T3, T4, T5, U1, U2 any](self Result5[T1, T2, T3, T4, T5], op func(T1, T2, T3, T4, T5) Result2[U1, U2]) Result2[U1, U2] {
+	if self.IsOk() {
+		return op(self.Value())
+	}
+	return Err2[U1, U2](self.err)
+}
+
+// Map52 Maps a Result<T> to Result<U> by applying a function to a contained Ok value, leaving an Err value untouched
+func Map52[T1, T2, T3, T4, T5, U1, U2 any](self Result5[T1, T2, T3, T4, T5], op func(T1, T2, T3, T4, T5) (U1, U2)) Result2[U1, U2] {
+	if self.err != nil {
+		return Err2[U1, U2](self.err)
+	}
+	return Ok2[U1, U2](op(self.Value()))
+}
+
+// MapOr52 Returns the provided default (if Err), or applies a function to the contained value (if Ok)
+func MapOr52[T1, T2, T3, T4, T5, U1, U2 any](self Result5[T1, T2, T3, T4, T5], defaultV1 U1, defaultV2 U2, op func(T1, T2, T3, T4, T5) Result2[U1, U2]) Result2[U1, U2] {
+	if self.err != nil {
 		return Ok2[U1, U2](defaultV1, defaultV2)
 	}
-	return op(r.Value())
+	return op(self.Value())
 }
 
-// Then53 ...
-func Then53[T1, T2, T3, T4, T5, U1, U2, U3 any](r Result5[T1, T2, T3, T4, T5], op func(T1, T2, T3, T4, T5) Result3[U1, U2, U3]) Result3[U1, U2, U3] {
-	if r.err != nil {
-		return Err3[U1, U2, U3](r.err)
+// And53 Returns res if the result is Ok, otherwise returns the Err value of self
+func And53[T1, T2, T3, T4, T5, U1, U2, U3 any](self Result5[T1, T2, T3, T4, T5], res Result3[U1, U2, U3]) Result3[U1, U2, U3] {
+	if self.IsOk() {
+		return res
 	}
-	return op(r.Value())
+	return Err3[U1, U2, U3](self.err)
 }
 
-// Or53 ...
-func Or53[T1, T2, T3, T4, T5, U1, U2, U3 any](r Result5[T1, T2, T3, T4, T5], defaultV1 U1, defaultV2 U2, defaultV3 U3, op func(T1, T2, T3, T4, T5) Result3[U1, U2, U3]) Result3[U1, U2, U3] {
-	if r.err != nil {
+// AndThen53 Calls op if the result is Ok, otherwise returns the Err value of self
+func AndThen53[T1, T2, T3, T4, T5, U1, U2, U3 any](self Result5[T1, T2, T3, T4, T5], op func(T1, T2, T3, T4, T5) Result3[U1, U2, U3]) Result3[U1, U2, U3] {
+	if self.IsOk() {
+		return op(self.Value())
+	}
+	return Err3[U1, U2, U3](self.err)
+}
+
+// Map53 Maps a Result<T> to Result<U> by applying a function to a contained Ok value, leaving an Err value untouched
+func Map53[T1, T2, T3, T4, T5, U1, U2, U3 any](self Result5[T1, T2, T3, T4, T5], op func(T1, T2, T3, T4, T5) (U1, U2, U3)) Result3[U1, U2, U3] {
+	if self.err != nil {
+		return Err3[U1, U2, U3](self.err)
+	}
+	return Ok3[U1, U2, U3](op(self.Value()))
+}
+
+// MapOr53 Returns the provided default (if Err), or applies a function to the contained value (if Ok)
+func MapOr53[T1, T2, T3, T4, T5, U1, U2, U3 any](self Result5[T1, T2, T3, T4, T5], defaultV1 U1, defaultV2 U2, defaultV3 U3, op func(T1, T2, T3, T4, T5) Result3[U1, U2, U3]) Result3[U1, U2, U3] {
+	if self.err != nil {
 		return Ok3[U1, U2, U3](defaultV1, defaultV2, defaultV3)
 	}
-	return op(r.Value())
+	return op(self.Value())
 }
 
-// Then54 ...
-func Then54[T1, T2, T3, T4, T5, U1, U2, U3, U4 any](r Result5[T1, T2, T3, T4, T5], op func(T1, T2, T3, T4, T5) Result4[U1, U2, U3, U4]) Result4[U1, U2, U3, U4] {
-	if r.err != nil {
-		return Err4[U1, U2, U3, U4](r.err)
+// And54 Returns res if the result is Ok, otherwise returns the Err value of self
+func And54[T1, T2, T3, T4, T5, U1, U2, U3, U4 any](self Result5[T1, T2, T3, T4, T5], res Result4[U1, U2, U3, U4]) Result4[U1, U2, U3, U4] {
+	if self.IsOk() {
+		return res
 	}
-	return op(r.Value())
+	return Err4[U1, U2, U3, U4](self.err)
 }
 
-// Or54 ...
-func Or54[T1, T2, T3, T4, T5, U1, U2, U3, U4 any](r Result5[T1, T2, T3, T4, T5], defaultV1 U1, defaultV2 U2, defaultV3 U3, defaultV4 U4, op func(T1, T2, T3, T4, T5) Result4[U1, U2, U3, U4]) Result4[U1, U2, U3, U4] {
-	if r.err != nil {
+// AndThen54 Calls op if the result is Ok, otherwise returns the Err value of self
+func AndThen54[T1, T2, T3, T4, T5, U1, U2, U3, U4 any](self Result5[T1, T2, T3, T4, T5], op func(T1, T2, T3, T4, T5) Result4[U1, U2, U3, U4]) Result4[U1, U2, U3, U4] {
+	if self.IsOk() {
+		return op(self.Value())
+	}
+	return Err4[U1, U2, U3, U4](self.err)
+}
+
+// Map54 Maps a Result<T> to Result<U> by applying a function to a contained Ok value, leaving an Err value untouched
+func Map54[T1, T2, T3, T4, T5, U1, U2, U3, U4 any](self Result5[T1, T2, T3, T4, T5], op func(T1, T2, T3, T4, T5) (U1, U2, U3, U4)) Result4[U1, U2, U3, U4] {
+	if self.err != nil {
+		return Err4[U1, U2, U3, U4](self.err)
+	}
+	return Ok4[U1, U2, U3, U4](op(self.Value()))
+}
+
+// MapOr54 Returns the provided default (if Err), or applies a function to the contained value (if Ok)
+func MapOr54[T1, T2, T3, T4, T5, U1, U2, U3, U4 any](self Result5[T1, T2, T3, T4, T5], defaultV1 U1, defaultV2 U2, defaultV3 U3, defaultV4 U4, op func(T1, T2, T3, T4, T5) Result4[U1, U2, U3, U4]) Result4[U1, U2, U3, U4] {
+	if self.err != nil {
 		return Ok4[U1, U2, U3, U4](defaultV1, defaultV2, defaultV3, defaultV4)
 	}
-	return op(r.Value())
+	return op(self.Value())
 }
 
-// Then55 ...
-func Then55[T1, T2, T3, T4, T5, U1, U2, U3, U4, U5 any](r Result5[T1, T2, T3, T4, T5], op func(T1, T2, T3, T4, T5) Result5[U1, U2, U3, U4, U5]) Result5[U1, U2, U3, U4, U5] {
-	if r.err != nil {
-		return Err5[U1, U2, U3, U4, U5](r.err)
+// And55 Returns res if the result is Ok, otherwise returns the Err value of self
+func And55[T1, T2, T3, T4, T5, U1, U2, U3, U4, U5 any](self Result5[T1, T2, T3, T4, T5], res Result5[U1, U2, U3, U4, U5]) Result5[U1, U2, U3, U4, U5] {
+	if self.IsOk() {
+		return res
 	}
-	return op(r.Value())
+	return Err5[U1, U2, U3, U4, U5](self.err)
 }
 
-// Or55 ...
-func Or55[T1, T2, T3, T4, T5, U1, U2, U3, U4, U5 any](r Result5[T1, T2, T3, T4, T5], defaultV1 U1, defaultV2 U2, defaultV3 U3, defaultV4 U4, defaultV5 U5, op func(T1, T2, T3, T4, T5) Result5[U1, U2, U3, U4, U5]) Result5[U1, U2, U3, U4, U5] {
-	if r.err != nil {
+// AndThen55 Calls op if the result is Ok, otherwise returns the Err value of self
+func AndThen55[T1, T2, T3, T4, T5, U1, U2, U3, U4, U5 any](self Result5[T1, T2, T3, T4, T5], op func(T1, T2, T3, T4, T5) Result5[U1, U2, U3, U4, U5]) Result5[U1, U2, U3, U4, U5] {
+	if self.IsOk() {
+		return op(self.Value())
+	}
+	return Err5[U1, U2, U3, U4, U5](self.err)
+}
+
+// Map55 Maps a Result<T> to Result<U> by applying a function to a contained Ok value, leaving an Err value untouched
+func Map55[T1, T2, T3, T4, T5, U1, U2, U3, U4, U5 any](self Result5[T1, T2, T3, T4, T5], op func(T1, T2, T3, T4, T5) (U1, U2, U3, U4, U5)) Result5[U1, U2, U3, U4, U5] {
+	if self.err != nil {
+		return Err5[U1, U2, U3, U4, U5](self.err)
+	}
+	return Ok5[U1, U2, U3, U4, U5](op(self.Value()))
+}
+
+// MapOr55 Returns the provided default (if Err), or applies a function to the contained value (if Ok)
+func MapOr55[T1, T2, T3, T4, T5, U1, U2, U3, U4, U5 any](self Result5[T1, T2, T3, T4, T5], defaultV1 U1, defaultV2 U2, defaultV3 U3, defaultV4 U4, defaultV5 U5, op func(T1, T2, T3, T4, T5) Result5[U1, U2, U3, U4, U5]) Result5[U1, U2, U3, U4, U5] {
+	if self.err != nil {
 		return Ok5[U1, U2, U3, U4, U5](defaultV1, defaultV2, defaultV3, defaultV4, defaultV5)
 	}
-	return op(r.Value())
+	return op(self.Value())
 }
 
-// Then56 ...
-func Then56[T1, T2, T3, T4, T5, U1, U2, U3, U4, U5, U6 any](r Result5[T1, T2, T3, T4, T5], op func(T1, T2, T3, T4, T5) Result6[U1, U2, U3, U4, U5, U6]) Result6[U1, U2, U3, U4, U5, U6] {
-	if r.err != nil {
-		return Err6[U1, U2, U3, U4, U5, U6](r.err)
+// And56 Returns res if the result is Ok, otherwise returns the Err value of self
+func And56[T1, T2, T3, T4, T5, U1, U2, U3, U4, U5, U6 any](self Result5[T1, T2, T3, T4, T5], res Result6[U1, U2, U3, U4, U5, U6]) Result6[U1, U2, U3, U4, U5, U6] {
+	if self.IsOk() {
+		return res
 	}
-	return op(r.Value())
+	return Err6[U1, U2, U3, U4, U5, U6](self.err)
 }
 
-// Or56 ...
-func Or56[T1, T2, T3, T4, T5, U1, U2, U3, U4, U5, U6 any](r Result5[T1, T2, T3, T4, T5], defaultV1 U1, defaultV2 U2, defaultV3 U3, defaultV4 U4, defaultV5 U5, defaultV6 U6, op func(T1, T2, T3, T4, T5) Result6[U1, U2, U3, U4, U5, U6]) Result6[U1, U2, U3, U4, U5, U6] {
-	if r.err != nil {
+// AndThen56 Calls op if the result is Ok, otherwise returns the Err value of self
+func AndThen56[T1, T2, T3, T4, T5, U1, U2, U3, U4, U5, U6 any](self Result5[T1, T2, T3, T4, T5], op func(T1, T2, T3, T4, T5) Result6[U1, U2, U3, U4, U5, U6]) Result6[U1, U2, U3, U4, U5, U6] {
+	if self.IsOk() {
+		return op(self.Value())
+	}
+	return Err6[U1, U2, U3, U4, U5, U6](self.err)
+}
+
+// Map56 Maps a Result<T> to Result<U> by applying a function to a contained Ok value, leaving an Err value untouched
+func Map56[T1, T2, T3, T4, T5, U1, U2, U3, U4, U5, U6 any](self Result5[T1, T2, T3, T4, T5], op func(T1, T2, T3, T4, T5) (U1, U2, U3, U4, U5, U6)) Result6[U1, U2, U3, U4, U5, U6] {
+	if self.err != nil {
+		return Err6[U1, U2, U3, U4, U5, U6](self.err)
+	}
+	return Ok6[U1, U2, U3, U4, U5, U6](op(self.Value()))
+}
+
+// MapOr56 Returns the provided default (if Err), or applies a function to the contained value (if Ok)
+func MapOr56[T1, T2, T3, T4, T5, U1, U2, U3, U4, U5, U6 any](self Result5[T1, T2, T3, T4, T5], defaultV1 U1, defaultV2 U2, defaultV3 U3, defaultV4 U4, defaultV5 U5, defaultV6 U6, op func(T1, T2, T3, T4, T5) Result6[U1, U2, U3, U4, U5, U6]) Result6[U1, U2, U3, U4, U5, U6] {
+	if self.err != nil {
 		return Ok6[U1, U2, U3, U4, U5, U6](defaultV1, defaultV2, defaultV3, defaultV4, defaultV5, defaultV6)
 	}
-	return op(r.Value())
+	return op(self.Value())
 }
 
-// Then61 ...
-func Then61[T1, T2, T3, T4, T5, T6, U1 any](r Result6[T1, T2, T3, T4, T5, T6], op func(T1, T2, T3, T4, T5, T6) Result1[U1]) Result1[U1] {
-	if r.err != nil {
-		return Err1[U1](r.err)
+// And61 Returns res if the result is Ok, otherwise returns the Err value of self
+func And61[T1, T2, T3, T4, T5, T6, U1 any](self Result6[T1, T2, T3, T4, T5, T6], res Result1[U1]) Result1[U1] {
+	if self.IsOk() {
+		return res
 	}
-	return op(r.Value())
+	return Err1[U1](self.err)
 }
 
-// Or61 ...
-func Or61[T1, T2, T3, T4, T5, T6, U1 any](r Result6[T1, T2, T3, T4, T5, T6], defaultV1 U1, op func(T1, T2, T3, T4, T5, T6) Result1[U1]) Result1[U1] {
-	if r.err != nil {
+// AndThen61 Calls op if the result is Ok, otherwise returns the Err value of self
+func AndThen61[T1, T2, T3, T4, T5, T6, U1 any](self Result6[T1, T2, T3, T4, T5, T6], op func(T1, T2, T3, T4, T5, T6) Result1[U1]) Result1[U1] {
+	if self.IsOk() {
+		return op(self.Value())
+	}
+	return Err1[U1](self.err)
+}
+
+// Map61 Maps a Result<T> to Result<U> by applying a function to a contained Ok value, leaving an Err value untouched
+func Map61[T1, T2, T3, T4, T5, T6, U1 any](self Result6[T1, T2, T3, T4, T5, T6], op func(T1, T2, T3, T4, T5, T6) U1) Result1[U1] {
+	if self.err != nil {
+		return Err1[U1](self.err)
+	}
+	return Ok1[U1](op(self.Value()))
+}
+
+// MapOr61 Returns the provided default (if Err), or applies a function to the contained value (if Ok)
+func MapOr61[T1, T2, T3, T4, T5, T6, U1 any](self Result6[T1, T2, T3, T4, T5, T6], defaultV1 U1, op func(T1, T2, T3, T4, T5, T6) Result1[U1]) Result1[U1] {
+	if self.err != nil {
 		return Ok1[U1](defaultV1)
 	}
-	return op(r.Value())
+	return op(self.Value())
 }
 
-// Then62 ...
-func Then62[T1, T2, T3, T4, T5, T6, U1, U2 any](r Result6[T1, T2, T3, T4, T5, T6], op func(T1, T2, T3, T4, T5, T6) Result2[U1, U2]) Result2[U1, U2] {
-	if r.err != nil {
-		return Err2[U1, U2](r.err)
+// And62 Returns res if the result is Ok, otherwise returns the Err value of self
+func And62[T1, T2, T3, T4, T5, T6, U1, U2 any](self Result6[T1, T2, T3, T4, T5, T6], res Result2[U1, U2]) Result2[U1, U2] {
+	if self.IsOk() {
+		return res
 	}
-	return op(r.Value())
+	return Err2[U1, U2](self.err)
 }
 
-// Or62 ...
-func Or62[T1, T2, T3, T4, T5, T6, U1, U2 any](r Result6[T1, T2, T3, T4, T5, T6], defaultV1 U1, defaultV2 U2, op func(T1, T2, T3, T4, T5, T6) Result2[U1, U2]) Result2[U1, U2] {
-	if r.err != nil {
+// AndThen62 Calls op if the result is Ok, otherwise returns the Err value of self
+func AndThen62[T1, T2, T3, T4, T5, T6, U1, U2 any](self Result6[T1, T2, T3, T4, T5, T6], op func(T1, T2, T3, T4, T5, T6) Result2[U1, U2]) Result2[U1, U2] {
+	if self.IsOk() {
+		return op(self.Value())
+	}
+	return Err2[U1, U2](self.err)
+}
+
+// Map62 Maps a Result<T> to Result<U> by applying a function to a contained Ok value, leaving an Err value untouched
+func Map62[T1, T2, T3, T4, T5, T6, U1, U2 any](self Result6[T1, T2, T3, T4, T5, T6], op func(T1, T2, T3, T4, T5, T6) (U1, U2)) Result2[U1, U2] {
+	if self.err != nil {
+		return Err2[U1, U2](self.err)
+	}
+	return Ok2[U1, U2](op(self.Value()))
+}
+
+// MapOr62 Returns the provided default (if Err), or applies a function to the contained value (if Ok)
+func MapOr62[T1, T2, T3, T4, T5, T6, U1, U2 any](self Result6[T1, T2, T3, T4, T5, T6], defaultV1 U1, defaultV2 U2, op func(T1, T2, T3, T4, T5, T6) Result2[U1, U2]) Result2[U1, U2] {
+	if self.err != nil {
 		return Ok2[U1, U2](defaultV1, defaultV2)
 	}
-	return op(r.Value())
+	return op(self.Value())
 }
 
-// Then63 ...
-func Then63[T1, T2, T3, T4, T5, T6, U1, U2, U3 any](r Result6[T1, T2, T3, T4, T5, T6], op func(T1, T2, T3, T4, T5, T6) Result3[U1, U2, U3]) Result3[U1, U2, U3] {
-	if r.err != nil {
-		return Err3[U1, U2, U3](r.err)
+// And63 Returns res if the result is Ok, otherwise returns the Err value of self
+func And63[T1, T2, T3, T4, T5, T6, U1, U2, U3 any](self Result6[T1, T2, T3, T4, T5, T6], res Result3[U1, U2, U3]) Result3[U1, U2, U3] {
+	if self.IsOk() {
+		return res
 	}
-	return op(r.Value())
+	return Err3[U1, U2, U3](self.err)
 }
 
-// Or63 ...
-func Or63[T1, T2, T3, T4, T5, T6, U1, U2, U3 any](r Result6[T1, T2, T3, T4, T5, T6], defaultV1 U1, defaultV2 U2, defaultV3 U3, op func(T1, T2, T3, T4, T5, T6) Result3[U1, U2, U3]) Result3[U1, U2, U3] {
-	if r.err != nil {
+// AndThen63 Calls op if the result is Ok, otherwise returns the Err value of self
+func AndThen63[T1, T2, T3, T4, T5, T6, U1, U2, U3 any](self Result6[T1, T2, T3, T4, T5, T6], op func(T1, T2, T3, T4, T5, T6) Result3[U1, U2, U3]) Result3[U1, U2, U3] {
+	if self.IsOk() {
+		return op(self.Value())
+	}
+	return Err3[U1, U2, U3](self.err)
+}
+
+// Map63 Maps a Result<T> to Result<U> by applying a function to a contained Ok value, leaving an Err value untouched
+func Map63[T1, T2, T3, T4, T5, T6, U1, U2, U3 any](self Result6[T1, T2, T3, T4, T5, T6], op func(T1, T2, T3, T4, T5, T6) (U1, U2, U3)) Result3[U1, U2, U3] {
+	if self.err != nil {
+		return Err3[U1, U2, U3](self.err)
+	}
+	return Ok3[U1, U2, U3](op(self.Value()))
+}
+
+// MapOr63 Returns the provided default (if Err), or applies a function to the contained value (if Ok)
+func MapOr63[T1, T2, T3, T4, T5, T6, U1, U2, U3 any](self Result6[T1, T2, T3, T4, T5, T6], defaultV1 U1, defaultV2 U2, defaultV3 U3, op func(T1, T2, T3, T4, T5, T6) Result3[U1, U2, U3]) Result3[U1, U2, U3] {
+	if self.err != nil {
 		return Ok3[U1, U2, U3](defaultV1, defaultV2, defaultV3)
 	}
-	return op(r.Value())
+	return op(self.Value())
 }
 
-// Then64 ...
-func Then64[T1, T2, T3, T4, T5, T6, U1, U2, U3, U4 any](r Result6[T1, T2, T3, T4, T5, T6], op func(T1, T2, T3, T4, T5, T6) Result4[U1, U2, U3, U4]) Result4[U1, U2, U3, U4] {
-	if r.err != nil {
-		return Err4[U1, U2, U3, U4](r.err)
+// And64 Returns res if the result is Ok, otherwise returns the Err value of self
+func And64[T1, T2, T3, T4, T5, T6, U1, U2, U3, U4 any](self Result6[T1, T2, T3, T4, T5, T6], res Result4[U1, U2, U3, U4]) Result4[U1, U2, U3, U4] {
+	if self.IsOk() {
+		return res
 	}
-	return op(r.Value())
+	return Err4[U1, U2, U3, U4](self.err)
 }
 
-// Or64 ...
-func Or64[T1, T2, T3, T4, T5, T6, U1, U2, U3, U4 any](r Result6[T1, T2, T3, T4, T5, T6], defaultV1 U1, defaultV2 U2, defaultV3 U3, defaultV4 U4, op func(T1, T2, T3, T4, T5, T6) Result4[U1, U2, U3, U4]) Result4[U1, U2, U3, U4] {
-	if r.err != nil {
+// AndThen64 Calls op if the result is Ok, otherwise returns the Err value of self
+func AndThen64[T1, T2, T3, T4, T5, T6, U1, U2, U3, U4 any](self Result6[T1, T2, T3, T4, T5, T6], op func(T1, T2, T3, T4, T5, T6) Result4[U1, U2, U3, U4]) Result4[U1, U2, U3, U4] {
+	if self.IsOk() {
+		return op(self.Value())
+	}
+	return Err4[U1, U2, U3, U4](self.err)
+}
+
+// Map64 Maps a Result<T> to Result<U> by applying a function to a contained Ok value, leaving an Err value untouched
+func Map64[T1, T2, T3, T4, T5, T6, U1, U2, U3, U4 any](self Result6[T1, T2, T3, T4, T5, T6], op func(T1, T2, T3, T4, T5, T6) (U1, U2, U3, U4)) Result4[U1, U2, U3, U4] {
+	if self.err != nil {
+		return Err4[U1, U2, U3, U4](self.err)
+	}
+	return Ok4[U1, U2, U3, U4](op(self.Value()))
+}
+
+// MapOr64 Returns the provided default (if Err), or applies a function to the contained value (if Ok)
+func MapOr64[T1, T2, T3, T4, T5, T6, U1, U2, U3, U4 any](self Result6[T1, T2, T3, T4, T5, T6], defaultV1 U1, defaultV2 U2, defaultV3 U3, defaultV4 U4, op func(T1, T2, T3, T4, T5, T6) Result4[U1, U2, U3, U4]) Result4[U1, U2, U3, U4] {
+	if self.err != nil {
 		return Ok4[U1, U2, U3, U4](defaultV1, defaultV2, defaultV3, defaultV4)
 	}
-	return op(r.Value())
+	return op(self.Value())
 }
 
-// Then65 ...
-func Then65[T1, T2, T3, T4, T5, T6, U1, U2, U3, U4, U5 any](r Result6[T1, T2, T3, T4, T5, T6], op func(T1, T2, T3, T4, T5, T6) Result5[U1, U2, U3, U4, U5]) Result5[U1, U2, U3, U4, U5] {
-	if r.err != nil {
-		return Err5[U1, U2, U3, U4, U5](r.err)
+// And65 Returns res if the result is Ok, otherwise returns the Err value of self
+func And65[T1, T2, T3, T4, T5, T6, U1, U2, U3, U4, U5 any](self Result6[T1, T2, T3, T4, T5, T6], res Result5[U1, U2, U3, U4, U5]) Result5[U1, U2, U3, U4, U5] {
+	if self.IsOk() {
+		return res
 	}
-	return op(r.Value())
+	return Err5[U1, U2, U3, U4, U5](self.err)
 }
 
-// Or65 ...
-func Or65[T1, T2, T3, T4, T5, T6, U1, U2, U3, U4, U5 any](r Result6[T1, T2, T3, T4, T5, T6], defaultV1 U1, defaultV2 U2, defaultV3 U3, defaultV4 U4, defaultV5 U5, op func(T1, T2, T3, T4, T5, T6) Result5[U1, U2, U3, U4, U5]) Result5[U1, U2, U3, U4, U5] {
-	if r.err != nil {
+// AndThen65 Calls op if the result is Ok, otherwise returns the Err value of self
+func AndThen65[T1, T2, T3, T4, T5, T6, U1, U2, U3, U4, U5 any](self Result6[T1, T2, T3, T4, T5, T6], op func(T1, T2, T3, T4, T5, T6) Result5[U1, U2, U3, U4, U5]) Result5[U1, U2, U3, U4, U5] {
+	if self.IsOk() {
+		return op(self.Value())
+	}
+	return Err5[U1, U2, U3, U4, U5](self.err)
+}
+
+// Map65 Maps a Result<T> to Result<U> by applying a function to a contained Ok value, leaving an Err value untouched
+func Map65[T1, T2, T3, T4, T5, T6, U1, U2, U3, U4, U5 any](self Result6[T1, T2, T3, T4, T5, T6], op func(T1, T2, T3, T4, T5, T6) (U1, U2, U3, U4, U5)) Result5[U1, U2, U3, U4, U5] {
+	if self.err != nil {
+		return Err5[U1, U2, U3, U4, U5](self.err)
+	}
+	return Ok5[U1, U2, U3, U4, U5](op(self.Value()))
+}
+
+// MapOr65 Returns the provided default (if Err), or applies a function to the contained value (if Ok)
+func MapOr65[T1, T2, T3, T4, T5, T6, U1, U2, U3, U4, U5 any](self Result6[T1, T2, T3, T4, T5, T6], defaultV1 U1, defaultV2 U2, defaultV3 U3, defaultV4 U4, defaultV5 U5, op func(T1, T2, T3, T4, T5, T6) Result5[U1, U2, U3, U4, U5]) Result5[U1, U2, U3, U4, U5] {
+	if self.err != nil {
 		return Ok5[U1, U2, U3, U4, U5](defaultV1, defaultV2, defaultV3, defaultV4, defaultV5)
 	}
-	return op(r.Value())
+	return op(self.Value())
 }
 
-// Then66 ...
-func Then66[T1, T2, T3, T4, T5, T6, U1, U2, U3, U4, U5, U6 any](r Result6[T1, T2, T3, T4, T5, T6], op func(T1, T2, T3, T4, T5, T6) Result6[U1, U2, U3, U4, U5, U6]) Result6[U1, U2, U3, U4, U5, U6] {
-	if r.err != nil {
-		return Err6[U1, U2, U3, U4, U5, U6](r.err)
+// And66 Returns res if the result is Ok, otherwise returns the Err value of self
+func And66[T1, T2, T3, T4, T5, T6, U1, U2, U3, U4, U5, U6 any](self Result6[T1, T2, T3, T4, T5, T6], res Result6[U1, U2, U3, U4, U5, U6]) Result6[U1, U2, U3, U4, U5, U6] {
+	if self.IsOk() {
+		return res
 	}
-	return op(r.Value())
+	return Err6[U1, U2, U3, U4, U5, U6](self.err)
 }
 
-// Or66 ...
-func Or66[T1, T2, T3, T4, T5, T6, U1, U2, U3, U4, U5, U6 any](r Result6[T1, T2, T3, T4, T5, T6], defaultV1 U1, defaultV2 U2, defaultV3 U3, defaultV4 U4, defaultV5 U5, defaultV6 U6, op func(T1, T2, T3, T4, T5, T6) Result6[U1, U2, U3, U4, U5, U6]) Result6[U1, U2, U3, U4, U5, U6] {
-	if r.err != nil {
+// AndThen66 Calls op if the result is Ok, otherwise returns the Err value of self
+func AndThen66[T1, T2, T3, T4, T5, T6, U1, U2, U3, U4, U5, U6 any](self Result6[T1, T2, T3, T4, T5, T6], op func(T1, T2, T3, T4, T5, T6) Result6[U1, U2, U3, U4, U5, U6]) Result6[U1, U2, U3, U4, U5, U6] {
+	if self.IsOk() {
+		return op(self.Value())
+	}
+	return Err6[U1, U2, U3, U4, U5, U6](self.err)
+}
+
+// Map66 Maps a Result<T> to Result<U> by applying a function to a contained Ok value, leaving an Err value untouched
+func Map66[T1, T2, T3, T4, T5, T6, U1, U2, U3, U4, U5, U6 any](self Result6[T1, T2, T3, T4, T5, T6], op func(T1, T2, T3, T4, T5, T6) (U1, U2, U3, U4, U5, U6)) Result6[U1, U2, U3, U4, U5, U6] {
+	if self.err != nil {
+		return Err6[U1, U2, U3, U4, U5, U6](self.err)
+	}
+	return Ok6[U1, U2, U3, U4, U5, U6](op(self.Value()))
+}
+
+// MapOr66 Returns the provided default (if Err), or applies a function to the contained value (if Ok)
+func MapOr66[T1, T2, T3, T4, T5, T6, U1, U2, U3, U4, U5, U6 any](self Result6[T1, T2, T3, T4, T5, T6], defaultV1 U1, defaultV2 U2, defaultV3 U3, defaultV4 U4, defaultV5 U5, defaultV6 U6, op func(T1, T2, T3, T4, T5, T6) Result6[U1, U2, U3, U4, U5, U6]) Result6[U1, U2, U3, U4, U5, U6] {
+	if self.err != nil {
 		return Ok6[U1, U2, U3, U4, U5, U6](defaultV1, defaultV2, defaultV3, defaultV4, defaultV5, defaultV6)
 	}
-	return op(r.Value())
+	return op(self.Value())
 }
