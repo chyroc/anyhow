@@ -7,14 +7,6 @@ import (
 	. "github.com/chyroc/anyhow"
 )
 
-type number interface {
-	~int | ~int32
-}
-
-func addOne[T number](x T) T {
-	return x + 1
-}
-
 func getHomePath() Result1[string] {
 	user, err := user.Current()
 	if err != nil {
