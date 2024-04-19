@@ -112,9 +112,6 @@ func (r Result1[T1]) UnwrapOrElse(op func(error) T1) T1 {
 
 // Unpack return (v1, v2, ..., err)
 func (r Result1[T1]) Unpack() (T1, error) {
-	if r.err != nil {
-		panic(r.err)
-	}
 	return r.v1, r.err
 }
 
@@ -232,9 +229,6 @@ func (r Result2[T1, T2]) UnwrapOrElse(op func(error) (T1, T2)) (T1, T2) {
 
 // Unpack return (v1, v2, ..., err)
 func (r Result2[T1, T2]) Unpack() (T1, T2, error) {
-	if r.err != nil {
-		panic(r.err)
-	}
 	return r.v1, r.v2, r.err
 }
 
@@ -356,9 +350,6 @@ func (r Result3[T1, T2, T3]) UnwrapOrElse(op func(error) (T1, T2, T3)) (T1, T2, 
 
 // Unpack return (v1, v2, ..., err)
 func (r Result3[T1, T2, T3]) Unpack() (T1, T2, T3, error) {
-	if r.err != nil {
-		panic(r.err)
-	}
 	return r.v1, r.v2, r.v3, r.err
 }
 
@@ -484,9 +475,6 @@ func (r Result4[T1, T2, T3, T4]) UnwrapOrElse(op func(error) (T1, T2, T3, T4)) (
 
 // Unpack return (v1, v2, ..., err)
 func (r Result4[T1, T2, T3, T4]) Unpack() (T1, T2, T3, T4, error) {
-	if r.err != nil {
-		panic(r.err)
-	}
 	return r.v1, r.v2, r.v3, r.v4, r.err
 }
 
@@ -616,9 +604,6 @@ func (r Result5[T1, T2, T3, T4, T5]) UnwrapOrElse(op func(error) (T1, T2, T3, T4
 
 // Unpack return (v1, v2, ..., err)
 func (r Result5[T1, T2, T3, T4, T5]) Unpack() (T1, T2, T3, T4, T5, error) {
-	if r.err != nil {
-		panic(r.err)
-	}
 	return r.v1, r.v2, r.v3, r.v4, r.v5, r.err
 }
 
@@ -752,9 +737,6 @@ func (r Result6[T1, T2, T3, T4, T5, T6]) UnwrapOrElse(op func(error) (T1, T2, T3
 
 // Unpack return (v1, v2, ..., err)
 func (r Result6[T1, T2, T3, T4, T5, T6]) Unpack() (T1, T2, T3, T4, T5, T6, error) {
-	if r.err != nil {
-		panic(r.err)
-	}
 	return r.v1, r.v2, r.v3, r.v4, r.v5, r.v6, r.err
 }
 

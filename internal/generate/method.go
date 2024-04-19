@@ -121,9 +121,6 @@ func (r Result{{len .}}[{{ range $val := .}}{{if gt $val 1 }}, {{end}}T{{$val}}{
 
 // Unpack return (v1, v2, ..., err)
 func (r Result{{len .}}[{{ range $val := .}}{{if gt $val 1 }}, {{end}}T{{$val}}{{ end }}]) Unpack() ({{ range $val := .}}{{if gt $val 1 }}, {{end}}T{{$val}}{{ end }}, error) {
-	if r.err != nil {
-		panic(r.err)
-	}
 	return {{ range $val := .}}{{if gt $val 1 }}, {{end}}r.v{{$val}}{{ end }}, r.err
 }
 

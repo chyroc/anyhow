@@ -40,5 +40,4 @@ func Example_Expect_ExpectErr() {
 }
 
 func main() {
-	
 }
