@@ -22,7 +22,7 @@ func And{{len .L}}{{len .R}}[{{range $val := .L}}{{if gt $val 1 }}, {{end}}T{{$v
 // AndThen{{len .L}}{{len .R}} Calls op if the result is Ok, otherwise returns the Err value of self
 func AndThen{{len .L}}{{len .R}}[{{range $val := .L}}{{if gt $val 1 }}, {{end}}T{{$val}}{{ end }}, {{range $val := .R}}{{if gt $val 1 }}, {{end}}U{{$val}}{{ end }} any](self Result{{len .L}}[{{range $val := .L}}{{if gt $val 1 }}, {{end}}T{{$val}}{{ end }}], op func({{range $val := .L}}{{if gt $val 1 }}, {{end}}T{{$val}}{{ end }}) Result{{len .R}}[{{range $val := .R}}{{if gt $val 1 }}, {{end}}U{{$val}}{{ end }}]) Result{{len .R}}[{{range $val := .R}}{{if gt $val 1 }}, {{end}}U{{$val}}{{ end }}] {
 	if self.IsOk() {
-		return op(self.Value())	
+		return op(self.IntoOk())	
 	}
 	return Err{{len .R}}[{{range $val := .R}}{{if gt $val 1 }}, {{end}}U{{$val}}{{ end }}](self.err)
 }
@@ -32,7 +32,7 @@ func Map{{len .L}}{{len .R}}[{{range $val := .L}}{{if gt $val 1 }}, {{end}}T{{$v
 	if self.err != nil {
 		return Err{{len .R}}[{{range $val := .R}}{{if gt $val 1 }}, {{end}}U{{$val}}{{ end }}](self.err)
 	}
-	return Ok{{len .R}}[{{range $val := .R}}{{if gt $val 1 }}, {{end}}U{{$val}}{{ end }}](op(self.Value()))
+	return Ok{{len .R}}[{{range $val := .R}}{{if gt $val 1 }}, {{end}}U{{$val}}{{ end }}](op(self.IntoOk()))
 }
 
 // MapOr{{len .L}}{{len .R}} Returns the provided default (if Err), or applies a function to the contained value (if Ok)
@@ -40,7 +40,7 @@ func MapOr{{len .L}}{{len .R}}[{{range $val := .L}}{{if gt $val 1 }}, {{end}}T{{
 	if self.err != nil {
 		return Ok{{len .R}}[{{range $val := .R}}{{if gt $val 1 }}, {{end}}U{{$val}}{{ end }}]({{range $val := .R}}{{if gt $val 1 }}, {{end}}defaultV{{$val}}{{ end }})
 	}
-	return op(self.Value())
+	return op(self.IntoOk())
 }
 
 `

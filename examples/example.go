@@ -38,3 +38,7 @@ func Example_Expect_ExpectErr() {
 	// get home path with err, or panic with `must get err` msg
 	_ = getHomePath().ExpectErr("must get err")
 }
+
+func main() {
+	
+}

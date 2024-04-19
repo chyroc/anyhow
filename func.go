@@ -11,7 +11,7 @@ func And11[T1, U1 any](self Result1[T1], res Result1[U1]) Result1[U1] {
 // AndThen11 Calls op if the result is Ok, otherwise returns the Err value of self
 func AndThen11[T1, U1 any](self Result1[T1], op func(T1) Result1[U1]) Result1[U1] {
 	if self.IsOk() {
-		return op(self.Value())
+		return op(self.IntoOk())
 	}
 	return Err1[U1](self.err)
 }
@@ -21,7 +21,7 @@ func Map11[T1, U1 any](self Result1[T1], op func(T1) U1) Result1[U1] {
 	if self.err != nil {
 		return Err1[U1](self.err)
 	}
-	return Ok1[U1](op(self.Value()))
+	return Ok1[U1](op(self.IntoOk()))
 }
 
 // MapOr11 Returns the provided default (if Err), or applies a function to the contained value (if Ok)
@@ -29,7 +29,7 @@ func MapOr11[T1, U1 any](self Result1[T1], defaultV1 U1, op func(T1) Result1[U1]
 	if self.err != nil {
 		return Ok1[U1](defaultV1)
 	}
-	return op(self.Value())
+	return op(self.IntoOk())
 }
 
 // And12 Returns res if the result is Ok, otherwise returns the Err value of self
@@ -43,7 +43,7 @@ func And12[T1, U1, U2 any](self Result1[T1], res Result2[U1, U2]) Result2[U1, U2
 // AndThen12 Calls op if the result is Ok, otherwise returns the Err value of self
 func AndThen12[T1, U1, U2 any](self Result1[T1], op func(T1) Result2[U1, U2]) Result2[U1, U2] {
 	if self.IsOk() {
-		return op(self.Value())
+		return op(self.IntoOk())
 	}
 	return Err2[U1, U2](self.err)
 }
@@ -53,7 +53,7 @@ func Map12[T1, U1, U2 any](self Result1[T1], op func(T1) (U1, U2)) Result2[U1, U
 	if self.err != nil {
 		return Err2[U1, U2](self.err)
 	}
-	return Ok2[U1, U2](op(self.Value()))
+	return Ok2[U1, U2](op(self.IntoOk()))
 }
 
 // MapOr12 Returns the provided default (if Err), or applies a function to the contained value (if Ok)
@@ -61,7 +61,7 @@ func MapOr12[T1, U1, U2 any](self Result1[T1], defaultV1 U1, defaultV2 U2, op fu
 	if self.err != nil {
 		return Ok2[U1, U2](defaultV1, defaultV2)
 	}
-	return op(self.Value())
+	return op(self.IntoOk())
 }
 
 // And13 Returns res if the result is Ok, otherwise returns the Err value of self
@@ -75,7 +75,7 @@ func And13[T1, U1, U2, U3 any](self Result1[T1], res Result3[U1, U2, U3]) Result
 // AndThen13 Calls op if the result is Ok, otherwise returns the Err value of self
 func AndThen13[T1, U1, U2, U3 any](self Result1[T1], op func(T1) Result3[U1, U2, U3]) Result3[U1, U2, U3] {
 	if self.IsOk() {
-		return op(self.Value())
+		return op(self.IntoOk())
 	}
 	return Err3[U1, U2, U3](self.err)
 }
@@ -85,7 +85,7 @@ func Map13[T1, U1, U2, U3 any](self Result1[T1], op func(T1) (U1, U2, U3)) Resul
 	if self.err != nil {
 		return Err3[U1, U2, U3](self.err)
 	}
-	return Ok3[U1, U2, U3](op(self.Value()))
+	return Ok3[U1, U2, U3](op(self.IntoOk()))
 }
 
 // MapOr13 Returns the provided default (if Err), or applies a function to the contained value (if Ok)
@@ -93,7 +93,7 @@ func MapOr13[T1, U1, U2, U3 any](self Result1[T1], defaultV1 U1, defaultV2 U2, d
 	if self.err != nil {
 		return Ok3[U1, U2, U3](defaultV1, defaultV2, defaultV3)
 	}
-	return op(self.Value())
+	return op(self.IntoOk())
 }
 
 // And14 Returns res if the result is Ok, otherwise returns the Err value of self
@@ -107,7 +107,7 @@ func And14[T1, U1, U2, U3, U4 any](self Result1[T1], res Result4[U1, U2, U3, U4]
 // AndThen14 Calls op if the result is Ok, otherwise returns the Err value of self
 func AndThen14[T1, U1, U2, U3, U4 any](self Result1[T1], op func(T1) Result4[U1, U2, U3, U4]) Result4[U1, U2, U3, U4] {
 	if self.IsOk() {
-		return op(self.Value())
+		return op(self.IntoOk())
 	}
 	return Err4[U1, U2, U3, U4](self.err)
 }
@@ -117,7 +117,7 @@ func Map14[T1, U1, U2, U3, U4 any](self Result1[T1], op func(T1) (U1, U2, U3, U4
 	if self.err != nil {
 		return Err4[U1, U2, U3, U4](self.err)
 	}
-	return Ok4[U1, U2, U3, U4](op(self.Value()))
+	return Ok4[U1, U2, U3, U4](op(self.IntoOk()))
 }
 
 // MapOr14 Returns the provided default (if Err), or applies a function to the contained value (if Ok)
@@ -125,7 +125,7 @@ func MapOr14[T1, U1, U2, U3, U4 any](self Result1[T1], defaultV1 U1, defaultV2 U
 	if self.err != nil {
 		return Ok4[U1, U2, U3, U4](defaultV1, defaultV2, defaultV3, defaultV4)
 	}
-	return op(self.Value())
+	return op(self.IntoOk())
 }
 
 // And15 Returns res if the result is Ok, otherwise returns the Err value of self
@@ -139,7 +139,7 @@ func And15[T1, U1, U2, U3, U4, U5 any](self Result1[T1], res Result5[U1, U2, U3,
 // AndThen15 Calls op if the result is Ok, otherwise returns the Err value of self
 func AndThen15[T1, U1, U2, U3, U4, U5 any](self Result1[T1], op func(T1) Result5[U1, U2, U3, U4, U5]) Result5[U1, U2, U3, U4, U5] {
 	if self.IsOk() {
-		return op(self.Value())
+		return op(self.IntoOk())
 	}
 	return Err5[U1, U2, U3, U4, U5](self.err)
 }
@@ -149,7 +149,7 @@ func Map15[T1, U1, U2, U3, U4, U5 any](self Result1[T1], op func(T1) (U1, U2, U3
 	if self.err != nil {
 		return Err5[U1, U2, U3, U4, U5](self.err)
 	}
-	return Ok5[U1, U2, U3, U4, U5](op(self.Value()))
+	return Ok5[U1, U2, U3, U4, U5](op(self.IntoOk()))
 }
 
 // MapOr15 Returns the provided default (if Err), or applies a function to the contained value (if Ok)
@@ -157,7 +157,7 @@ func MapOr15[T1, U1, U2, U3, U4, U5 any](self Result1[T1], defaultV1 U1, default
 	if self.err != nil {
 		return Ok5[U1, U2, U3, U4, U5](defaultV1, defaultV2, defaultV3, defaultV4, defaultV5)
 	}
-	return op(self.Value())
+	return op(self.IntoOk())
 }
 
 // And16 Returns res if the result is Ok, otherwise returns the Err value of self
@@ -171,7 +171,7 @@ func And16[T1, U1, U2, U3, U4, U5, U6 any](self Result1[T1], res Result6[U1, U2,
 // AndThen16 Calls op if the result is Ok, otherwise returns the Err value of self
 func AndThen16[T1, U1, U2, U3, U4, U5, U6 any](self Result1[T1], op func(T1) Result6[U1, U2, U3, U4, U5, U6]) Result6[U1, U2, U3, U4, U5, U6] {
 	if self.IsOk() {
-		return op(self.Value())
+		return op(self.IntoOk())
 	}
 	return Err6[U1, U2, U3, U4, U5, U6](self.err)
 }
@@ -181,7 +181,7 @@ func Map16[T1, U1, U2, U3, U4, U5, U6 any](self Result1[T1], op func(T1) (U1, U2
 	if self.err != nil {
 		return Err6[U1, U2, U3, U4, U5, U6](self.err)
 	}
-	return Ok6[U1, U2, U3, U4, U5, U6](op(self.Value()))
+	return Ok6[U1, U2, U3, U4, U5, U6](op(self.IntoOk()))
 }
 
 // MapOr16 Returns the provided default (if Err), or applies a function to the contained value (if Ok)
@@ -189,7 +189,7 @@ func MapOr16[T1, U1, U2, U3, U4, U5, U6 any](self Result1[T1], defaultV1 U1, def
 	if self.err != nil {
 		return Ok6[U1, U2, U3, U4, U5, U6](defaultV1, defaultV2, defaultV3, defaultV4, defaultV5, defaultV6)
 	}
-	return op(self.Value())
+	return op(self.IntoOk())
 }
 
 // And21 Returns res if the result is Ok, otherwise returns the Err value of self
@@ -203,7 +203,7 @@ func And21[T1, T2, U1 any](self Result2[T1, T2], res Result1[U1]) Result1[U1] {
 // AndThen21 Calls op if the result is Ok, otherwise returns the Err value of self
 func AndThen21[T1, T2, U1 any](self Result2[T1, T2], op func(T1, T2) Result1[U1]) Result1[U1] {
 	if self.IsOk() {
-		return op(self.Value())
+		return op(self.IntoOk())
 	}
 	return Err1[U1](self.err)
 }
@@ -213,7 +213,7 @@ func Map21[T1, T2, U1 any](self Result2[T1, T2], op func(T1, T2) U1) Result1[U1]
 	if self.err != nil {
 		return Err1[U1](self.err)
 	}
-	return Ok1[U1](op(self.Value()))
+	return Ok1[U1](op(self.IntoOk()))
 }
 
 // MapOr21 Returns the provided default (if Err), or applies a function to the contained value (if Ok)
@@ -221,7 +221,7 @@ func MapOr21[T1, T2, U1 any](self Result2[T1, T2], defaultV1 U1, op func(T1, T2)
 	if self.err != nil {
 		return Ok1[U1](defaultV1)
 	}
-	return op(self.Value())
+	return op(self.IntoOk())
 }
 
 // And22 Returns res if the result is Ok, otherwise returns the Err value of self
@@ -235,7 +235,7 @@ func And22[T1, T2, U1, U2 any](self Result2[T1, T2], res Result2[U1, U2]) Result
 // AndThen22 Calls op if the result is Ok, otherwise returns the Err value of self
 func AndThen22[T1, T2, U1, U2 any](self Result2[T1, T2], op func(T1, T2) Result2[U1, U2]) Result2[U1, U2] {
 	if self.IsOk() {
-		return op(self.Value())
+		return op(self.IntoOk())
 	}
 	return Err2[U1, U2](self.err)
 }
@@ -245,7 +245,7 @@ func Map22[T1, T2, U1, U2 any](self Result2[T1, T2], op func(T1, T2) (U1, U2)) R
 	if self.err != nil {
 		return Err2[U1, U2](self.err)
 	}
-	return Ok2[U1, U2](op(self.Value()))
+	return Ok2[U1, U2](op(self.IntoOk()))
 }
 
 // MapOr22 Returns the provided default (if Err), or applies a function to the contained value (if Ok)
@@ -253,7 +253,7 @@ func MapOr22[T1, T2, U1, U2 any](self Result2[T1, T2], defaultV1 U1, defaultV2 U
 	if self.err != nil {
 		return Ok2[U1, U2](defaultV1, defaultV2)
 	}
-	return op(self.Value())
+	return op(self.IntoOk())
 }
 
 // And23 Returns res if the result is Ok, otherwise returns the Err value of self
@@ -267,7 +267,7 @@ func And23[T1, T2, U1, U2, U3 any](self Result2[T1, T2], res Result3[U1, U2, U3]
 // AndThen23 Calls op if the result is Ok, otherwise returns the Err value of self
 func AndThen23[T1, T2, U1, U2, U3 any](self Result2[T1, T2], op func(T1, T2) Result3[U1, U2, U3]) Result3[U1, U2, U3] {
 	if self.IsOk() {
-		return op(self.Value())
+		return op(self.IntoOk())
 	}
 	return Err3[U1, U2, U3](self.err)
 }
@@ -277,7 +277,7 @@ func Map23[T1, T2, U1, U2, U3 any](self Result2[T1, T2], op func(T1, T2) (U1, U2
 	if self.err != nil {
 		return Err3[U1, U2, U3](self.err)
 	}
-	return Ok3[U1, U2, U3](op(self.Value()))
+	return Ok3[U1, U2, U3](op(self.IntoOk()))
 }
 
 // MapOr23 Returns the provided default (if Err), or applies a function to the contained value (if Ok)
@@ -285,7 +285,7 @@ func MapOr23[T1, T2, U1, U2, U3 any](self Result2[T1, T2], defaultV1 U1, default
 	if self.err != nil {
 		return Ok3[U1, U2, U3](defaultV1, defaultV2, defaultV3)
 	}
-	return op(self.Value())
+	return op(self.IntoOk())
 }
 
 // And24 Returns res if the result is Ok, otherwise returns the Err value of self
@@ -299,7 +299,7 @@ func And24[T1, T2, U1, U2, U3, U4 any](self Result2[T1, T2], res Result4[U1, U2,
 // AndThen24 Calls op if the result is Ok, otherwise returns the Err value of self
 func AndThen24[T1, T2, U1, U2, U3, U4 any](self Result2[T1, T2], op func(T1, T2) Result4[U1, U2, U3, U4]) Result4[U1, U2, U3, U4] {
 	if self.IsOk() {
-		return op(self.Value())
+		return op(self.IntoOk())
 	}
 	return Err4[U1, U2, U3, U4](self.err)
 }
@@ -309,7 +309,7 @@ func Map24[T1, T2, U1, U2, U3, U4 any](self Result2[T1, T2], op func(T1, T2) (U1
 	if self.err != nil {
 		return Err4[U1, U2, U3, U4](self.err)
 	}
-	return Ok4[U1, U2, U3, U4](op(self.Value()))
+	return Ok4[U1, U2, U3, U4](op(self.IntoOk()))
 }
 
 // MapOr24 Returns the provided default (if Err), or applies a function to the contained value (if Ok)
@@ -317,7 +317,7 @@ func MapOr24[T1, T2, U1, U2, U3, U4 any](self Result2[T1, T2], defaultV1 U1, def
 	if self.err != nil {
 		return Ok4[U1, U2, U3, U4](defaultV1, defaultV2, defaultV3, defaultV4)
 	}
-	return op(self.Value())
+	return op(self.IntoOk())
 }
 
 // And25 Returns res if the result is Ok, otherwise returns the Err value of self
@@ -331,7 +331,7 @@ func And25[T1, T2, U1, U2, U3, U4, U5 any](self Result2[T1, T2], res Result5[U1,
 // AndThen25 Calls op if the result is Ok, otherwise returns the Err value of self
 func AndThen25[T1, T2, U1, U2, U3, U4, U5 any](self Result2[T1, T2], op func(T1, T2) Result5[U1, U2, U3, U4, U5]) Result5[U1, U2, U3, U4, U5] {
 	if self.IsOk() {
-		return op(self.Value())
+		return op(self.IntoOk())
 	}
 	return Err5[U1, U2, U3, U4, U5](self.err)
 }
@@ -341,7 +341,7 @@ func Map25[T1, T2, U1, U2, U3, U4, U5 any](self Result2[T1, T2], op func(T1, T2)
 	if self.err != nil {
 		return Err5[U1, U2, U3, U4, U5](self.err)
 	}
-	return Ok5[U1, U2, U3, U4, U5](op(self.Value()))
+	return Ok5[U1, U2, U3, U4, U5](op(self.IntoOk()))
 }
 
 // MapOr25 Returns the provided default (if Err), or applies a function to the contained value (if Ok)
@@ -349,7 +349,7 @@ func MapOr25[T1, T2, U1, U2, U3, U4, U5 any](self Result2[T1, T2], defaultV1 U1,
 	if self.err != nil {
 		return Ok5[U1, U2, U3, U4, U5](defaultV1, defaultV2, defaultV3, defaultV4, defaultV5)
 	}
-	return op(self.Value())
+	return op(self.IntoOk())
 }
 
 // And26 Returns res if the result is Ok, otherwise returns the Err value of self
@@ -363,7 +363,7 @@ func And26[T1, T2, U1, U2, U3, U4, U5, U6 any](self Result2[T1, T2], res Result6
 // AndThen26 Calls op if the result is Ok, otherwise returns the Err value of self
 func AndThen26[T1, T2, U1, U2, U3, U4, U5, U6 any](self Result2[T1, T2], op func(T1, T2) Result6[U1, U2, U3, U4, U5, U6]) Result6[U1, U2, U3, U4, U5, U6] {
 	if self.IsOk() {
-		return op(self.Value())
+		return op(self.IntoOk())
 	}
 	return Err6[U1, U2, U3, U4, U5, U6](self.err)
 }
@@ -373,7 +373,7 @@ func Map26[T1, T2, U1, U2, U3, U4, U5, U6 any](self Result2[T1, T2], op func(T1,
 	if self.err != nil {
 		return Err6[U1, U2, U3, U4, U5, U6](self.err)
 	}
-	return Ok6[U1, U2, U3, U4, U5, U6](op(self.Value()))
+	return Ok6[U1, U2, U3, U4, U5, U6](op(self.IntoOk()))
 }
 
 // MapOr26 Returns the provided default (if Err), or applies a function to the contained value (if Ok)
@@ -381,7 +381,7 @@ func MapOr26[T1, T2, U1, U2, U3, U4, U5, U6 any](self Result2[T1, T2], defaultV1
 	if self.err != nil {
 		return Ok6[U1, U2, U3, U4, U5, U6](defaultV1, defaultV2, defaultV3, defaultV4, defaultV5, defaultV6)
 	}
-	return op(self.Value())
+	return op(self.IntoOk())
 }
 
 // And31 Returns res if the result is Ok, otherwise returns the Err value of self
@@ -395,7 +395,7 @@ func And31[T1, T2, T3, U1 any](self Result3[T1, T2, T3], res Result1[U1]) Result
 // AndThen31 Calls op if the result is Ok, otherwise returns the Err value of self
 func AndThen31[T1, T2, T3, U1 any](self Result3[T1, T2, T3], op func(T1, T2, T3) Result1[U1]) Result1[U1] {
 	if self.IsOk() {
-		return op(self.Value())
+		return op(self.IntoOk())
 	}
 	return Err1[U1](self.err)
 }
@@ -405,7 +405,7 @@ func Map31[T1, T2, T3, U1 any](self Result3[T1, T2, T3], op func(T1, T2, T3) U1)
 	if self.err != nil {
 		return Err1[U1](self.err)
 	}
-	return Ok1[U1](op(self.Value()))
+	return Ok1[U1](op(self.IntoOk()))
 }
 
 // MapOr31 Returns the provided default (if Err), or applies a function to the contained value (if Ok)
@@ -413,7 +413,7 @@ func MapOr31[T1, T2, T3, U1 any](self Result3[T1, T2, T3], defaultV1 U1, op func
 	if self.err != nil {
 		return Ok1[U1](defaultV1)
 	}
-	return op(self.Value())
+	return op(self.IntoOk())
 }
 
 // And32 Returns res if the result is Ok, otherwise returns the Err value of self
@@ -427,7 +427,7 @@ func And32[T1, T2, T3, U1, U2 any](self Result3[T1, T2, T3], res Result2[U1, U2]
 // AndThen32 Calls op if the result is Ok, otherwise returns the Err value of self
 func AndThen32[T1, T2, T3, U1, U2 any](self Result3[T1, T2, T3], op func(T1, T2, T3) Result2[U1, U2]) Result2[U1, U2] {
 	if self.IsOk() {
-		return op(self.Value())
+		return op(self.IntoOk())
 	}
 	return Err2[U1, U2](self.err)
 }
@@ -437,7 +437,7 @@ func Map32[T1, T2, T3, U1, U2 any](self Result3[T1, T2, T3], op func(T1, T2, T3)
 	if self.err != nil {
 		return Err2[U1, U2](self.err)
 	}
-	return Ok2[U1, U2](op(self.Value()))
+	return Ok2[U1, U2](op(self.IntoOk()))
 }
 
 // MapOr32 Returns the provided default (if Err), or applies a function to the contained value (if Ok)
@@ -445,7 +445,7 @@ func MapOr32[T1, T2, T3, U1, U2 any](self Result3[T1, T2, T3], defaultV1 U1, def
 	if self.err != nil {
 		return Ok2[U1, U2](defaultV1, defaultV2)
 	}
-	return op(self.Value())
+	return op(self.IntoOk())
 }
 
 // And33 Returns res if the result is Ok, otherwise returns the Err value of self
@@ -459,7 +459,7 @@ func And33[T1, T2, T3, U1, U2, U3 any](self Result3[T1, T2, T3], res Result3[U1,
 // AndThen33 Calls op if the result is Ok, otherwise returns the Err value of self
 func AndThen33[T1, T2, T3, U1, U2, U3 any](self Result3[T1, T2, T3], op func(T1, T2, T3) Result3[U1, U2, U3]) Result3[U1, U2, U3] {
 	if self.IsOk() {
-		return op(self.Value())
+		return op(self.IntoOk())
 	}
 	return Err3[U1, U2, U3](self.err)
 }
@@ -469,7 +469,7 @@ func Map33[T1, T2, T3, U1, U2, U3 any](self Result3[T1, T2, T3], op func(T1, T2,
 	if self.err != nil {
 		return Err3[U1, U2, U3](self.err)
 	}
-	return Ok3[U1, U2, U3](op(self.Value()))
+	return Ok3[U1, U2, U3](op(self.IntoOk()))
 }
 
 // MapOr33 Returns the provided default (if Err), or applies a function to the contained value (if Ok)
@@ -477,7 +477,7 @@ func MapOr33[T1, T2, T3, U1, U2, U3 any](self Result3[T1, T2, T3], defaultV1 U1,
 	if self.err != nil {
 		return Ok3[U1, U2, U3](defaultV1, defaultV2, defaultV3)
 	}
-	return op(self.Value())
+	return op(self.IntoOk())
 }
 
 // And34 Returns res if the result is Ok, otherwise returns the Err value of self
@@ -491,7 +491,7 @@ func And34[T1, T2, T3, U1, U2, U3, U4 any](self Result3[T1, T2, T3], res Result4
 // AndThen34 Calls op if the result is Ok, otherwise returns the Err value of self
 func AndThen34[T1, T2, T3, U1, U2, U3, U4 any](self Result3[T1, T2, T3], op func(T1, T2, T3) Result4[U1, U2, U3, U4]) Result4[U1, U2, U3, U4] {
 	if self.IsOk() {
-		return op(self.Value())
+		return op(self.IntoOk())
 	}
 	return Err4[U1, U2, U3, U4](self.err)
 }
@@ -501,7 +501,7 @@ func Map34[T1, T2, T3, U1, U2, U3, U4 any](self Result3[T1, T2, T3], op func(T1,
 	if self.err != nil {
 		return Err4[U1, U2, U3, U4](self.err)
 	}
-	return Ok4[U1, U2, U3, U4](op(self.Value()))
+	return Ok4[U1, U2, U3, U4](op(self.IntoOk()))
 }
 
 // MapOr34 Returns the provided default (if Err), or applies a function to the contained value (if Ok)
@@ -509,7 +509,7 @@ func MapOr34[T1, T2, T3, U1, U2, U3, U4 any](self Result3[T1, T2, T3], defaultV1
 	if self.err != nil {
 		return Ok4[U1, U2, U3, U4](defaultV1, defaultV2, defaultV3, defaultV4)
 	}
-	return op(self.Value())
+	return op(self.IntoOk())
 }
 
 // And35 Returns res if the result is Ok, otherwise returns the Err value of self
@@ -523,7 +523,7 @@ func And35[T1, T2, T3, U1, U2, U3, U4, U5 any](self Result3[T1, T2, T3], res Res
 // AndThen35 Calls op if the result is Ok, otherwise returns the Err value of self
 func AndThen35[T1, T2, T3, U1, U2, U3, U4, U5 any](self Result3[T1, T2, T3], op func(T1, T2, T3) Result5[U1, U2, U3, U4, U5]) Result5[U1, U2, U3, U4, U5] {
 	if self.IsOk() {
-		return op(self.Value())
+		return op(self.IntoOk())
 	}
 	return Err5[U1, U2, U3, U4, U5](self.err)
 }
@@ -533,7 +533,7 @@ func Map35[T1, T2, T3, U1, U2, U3, U4, U5 any](self Result3[T1, T2, T3], op func
 	if self.err != nil {
 		return Err5[U1, U2, U3, U4, U5](self.err)
 	}
-	return Ok5[U1, U2, U3, U4, U5](op(self.Value()))
+	return Ok5[U1, U2, U3, U4, U5](op(self.IntoOk()))
 }
 
 // MapOr35 Returns the provided default (if Err), or applies a function to the contained value (if Ok)
@@ -541,7 +541,7 @@ func MapOr35[T1, T2, T3, U1, U2, U3, U4, U5 any](self Result3[T1, T2, T3], defau
 	if self.err != nil {
 		return Ok5[U1, U2, U3, U4, U5](defaultV1, defaultV2, defaultV3, defaultV4, defaultV5)
 	}
-	return op(self.Value())
+	return op(self.IntoOk())
 }
 
 // And36 Returns res if the result is Ok, otherwise returns the Err value of self
@@ -555,7 +555,7 @@ func And36[T1, T2, T3, U1, U2, U3, U4, U5, U6 any](self Result3[T1, T2, T3], res
 // AndThen36 Calls op if the result is Ok, otherwise returns the Err value of self
 func AndThen36[T1, T2, T3, U1, U2, U3, U4, U5, U6 any](self Result3[T1, T2, T3], op func(T1, T2, T3) Result6[U1, U2, U3, U4, U5, U6]) Result6[U1, U2, U3, U4, U5, U6] {
 	if self.IsOk() {
-		return op(self.Value())
+		return op(self.IntoOk())
 	}
 	return Err6[U1, U2, U3, U4, U5, U6](self.err)
 }
@@ -565,7 +565,7 @@ func Map36[T1, T2, T3, U1, U2, U3, U4, U5, U6 any](self Result3[T1, T2, T3], op 
 	if self.err != nil {
 		return Err6[U1, U2, U3, U4, U5, U6](self.err)
 	}
-	return Ok6[U1, U2, U3, U4, U5, U6](op(self.Value()))
+	return Ok6[U1, U2, U3, U4, U5, U6](op(self.IntoOk()))
 }
 
 // MapOr36 Returns the provided default (if Err), or applies a function to the contained value (if Ok)
@@ -573,7 +573,7 @@ func MapOr36[T1, T2, T3, U1, U2, U3, U4, U5, U6 any](self Result3[T1, T2, T3], d
 	if self.err != nil {
 		return Ok6[U1, U2, U3, U4, U5, U6](defaultV1, defaultV2, defaultV3, defaultV4, defaultV5, defaultV6)
 	}
-	return op(self.Value())
+	return op(self.IntoOk())
 }
 
 // And41 Returns res if the result is Ok, otherwise returns the Err value of self
@@ -587,7 +587,7 @@ func And41[T1, T2, T3, T4, U1 any](self Result4[T1, T2, T3, T4], res Result1[U1]
 // AndThen41 Calls op if the result is Ok, otherwise returns the Err value of self
 func AndThen41[T1, T2, T3, T4, U1 any](self Result4[T1, T2, T3, T4], op func(T1, T2, T3, T4) Result1[U1]) Result1[U1] {
 	if self.IsOk() {
-		return op(self.Value())
+		return op(self.IntoOk())
 	}
 	return Err1[U1](self.err)
 }
@@ -597,7 +597,7 @@ func Map41[T1, T2, T3, T4, U1 any](self Result4[T1, T2, T3, T4], op func(T1, T2,
 	if self.err != nil {
 		return Err1[U1](self.err)
 	}
-	return Ok1[U1](op(self.Value()))
+	return Ok1[U1](op(self.IntoOk()))
 }
 
 // MapOr41 Returns the provided default (if Err), or applies a function to the contained value (if Ok)
@@ -605,7 +605,7 @@ func MapOr41[T1, T2, T3, T4, U1 any](self Result4[T1, T2, T3, T4], defaultV1 U1,
 	if self.err != nil {
 		return Ok1[U1](defaultV1)
 	}
-	return op(self.Value())
+	return op(self.IntoOk())
 }
 
 // And42 Returns res if the result is Ok, otherwise returns the Err value of self
@@ -619,7 +619,7 @@ func And42[T1, T2, T3, T4, U1, U2 any](self Result4[T1, T2, T3, T4], res Result2
 // AndThen42 Calls op if the result is Ok, otherwise returns the Err value of self
 func AndThen42[T1, T2, T3, T4, U1, U2 any](self Result4[T1, T2, T3, T4], op func(T1, T2, T3, T4) Result2[U1, U2]) Result2[U1, U2] {
 	if self.IsOk() {
-		return op(self.Value())
+		return op(self.IntoOk())
 	}
 	return Err2[U1, U2](self.err)
 }
@@ -629,7 +629,7 @@ func Map42[T1, T2, T3, T4, U1, U2 any](self Result4[T1, T2, T3, T4], op func(T1,
 	if self.err != nil {
 		return Err2[U1, U2](self.err)
 	}
-	return Ok2[U1, U2](op(self.Value()))
+	return Ok2[U1, U2](op(self.IntoOk()))
 }
 
 // MapOr42 Returns the provided default (if Err), or applies a function to the contained value (if Ok)
@@ -637,7 +637,7 @@ func MapOr42[T1, T2, T3, T4, U1, U2 any](self Result4[T1, T2, T3, T4], defaultV1
 	if self.err != nil {
 		return Ok2[U1, U2](defaultV1, defaultV2)
 	}
-	return op(self.Value())
+	return op(self.IntoOk())
 }
 
 // And43 Returns res if the result is Ok, otherwise returns the Err value of self
@@ -651,7 +651,7 @@ func And43[T1, T2, T3, T4, U1, U2, U3 any](self Result4[T1, T2, T3, T4], res Res
 // AndThen43 Calls op if the result is Ok, otherwise returns the Err value of self
 func AndThen43[T1, T2, T3, T4, U1, U2, U3 any](self Result4[T1, T2, T3, T4], op func(T1, T2, T3, T4) Result3[U1, U2, U3]) Result3[U1, U2, U3] {
 	if self.IsOk() {
-		return op(self.Value())
+		return op(self.IntoOk())
 	}
 	return Err3[U1, U2, U3](self.err)
 }
@@ -661,7 +661,7 @@ func Map43[T1, T2, T3, T4, U1, U2, U3 any](self Result4[T1, T2, T3, T4], op func
 	if self.err != nil {
 		return Err3[U1, U2, U3](self.err)
 	}
-	return Ok3[U1, U2, U3](op(self.Value()))
+	return Ok3[U1, U2, U3](op(self.IntoOk()))
 }
 
 // MapOr43 Returns the provided default (if Err), or applies a function to the contained value (if Ok)
@@ -669,7 +669,7 @@ func MapOr43[T1, T2, T3, T4, U1, U2, U3 any](self Result4[T1, T2, T3, T4], defau
 	if self.err != nil {
 		return Ok3[U1, U2, U3](defaultV1, defaultV2, defaultV3)
 	}
-	return op(self.Value())
+	return op(self.IntoOk())
 }
 
 // And44 Returns res if the result is Ok, otherwise returns the Err value of self
@@ -683,7 +683,7 @@ func And44[T1, T2, T3, T4, U1, U2, U3, U4 any](self Result4[T1, T2, T3, T4], res
 // AndThen44 Calls op if the result is Ok, otherwise returns the Err value of self
 func AndThen44[T1, T2, T3, T4, U1, U2, U3, U4 any](self Result4[T1, T2, T3, T4], op func(T1, T2, T3, T4) Result4[U1, U2, U3, U4]) Result4[U1, U2, U3, U4] {
 	if self.IsOk() {
-		return op(self.Value())
+		return op(self.IntoOk())
 	}
 	return Err4[U1, U2, U3, U4](self.err)
 }
@@ -693,7 +693,7 @@ func Map44[T1, T2, T3, T4, U1, U2, U3, U4 any](self Result4[T1, T2, T3, T4], op 
 	if self.err != nil {
 		return Err4[U1, U2, U3, U4](self.err)
 	}
-	return Ok4[U1, U2, U3, U4](op(self.Value()))
+	return Ok4[U1, U2, U3, U4](op(self.IntoOk()))
 }
 
 // MapOr44 Returns the provided default (if Err), or applies a function to the contained value (if Ok)
@@ -701,7 +701,7 @@ func MapOr44[T1, T2, T3, T4, U1, U2, U3, U4 any](self Result4[T1, T2, T3, T4], d
 	if self.err != nil {
 		return Ok4[U1, U2, U3, U4](defaultV1, defaultV2, defaultV3, defaultV4)
 	}
-	return op(self.Value())
+	return op(self.IntoOk())
 }
 
 // And45 Returns res if the result is Ok, otherwise returns the Err value of self
@@ -715,7 +715,7 @@ func And45[T1, T2, T3, T4, U1, U2, U3, U4, U5 any](self Result4[T1, T2, T3, T4],
 // AndThen45 Calls op if the result is Ok, otherwise returns the Err value of self
 func AndThen45[T1, T2, T3, T4, U1, U2, U3, U4, U5 any](self Result4[T1, T2, T3, T4], op func(T1, T2, T3, T4) Result5[U1, U2, U3, U4, U5]) Result5[U1, U2, U3, U4, U5] {
 	if self.IsOk() {
-		return op(self.Value())
+		return op(self.IntoOk())
 	}
 	return Err5[U1, U2, U3, U4, U5](self.err)
 }
@@ -725,7 +725,7 @@ func Map45[T1, T2, T3, T4, U1, U2, U3, U4, U5 any](self Result4[T1, T2, T3, T4],
 	if self.err != nil {
 		return Err5[U1, U2, U3, U4, U5](self.err)
 	}
-	return Ok5[U1, U2, U3, U4, U5](op(self.Value()))
+	return Ok5[U1, U2, U3, U4, U5](op(self.IntoOk()))
 }
 
 // MapOr45 Returns the provided default (if Err), or applies a function to the contained value (if Ok)
@@ -733,7 +733,7 @@ func MapOr45[T1, T2, T3, T4, U1, U2, U3, U4, U5 any](self Result4[T1, T2, T3, T4
 	if self.err != nil {
 		return Ok5[U1, U2, U3, U4, U5](defaultV1, defaultV2, defaultV3, defaultV4, defaultV5)
 	}
-	return op(self.Value())
+	return op(self.IntoOk())
 }
 
 // And46 Returns res if the result is Ok, otherwise returns the Err value of self
@@ -747,7 +747,7 @@ func And46[T1, T2, T3, T4, U1, U2, U3, U4, U5, U6 any](self Result4[T1, T2, T3, 
 // AndThen46 Calls op if the result is Ok, otherwise returns the Err value of self
 func AndThen46[T1, T2, T3, T4, U1, U2, U3, U4, U5, U6 any](self Result4[T1, T2, T3, T4], op func(T1, T2, T3, T4) Result6[U1, U2, U3, U4, U5, U6]) Result6[U1, U2, U3, U4, U5, U6] {
 	if self.IsOk() {
-		return op(self.Value())
+		return op(self.IntoOk())
 	}
 	return Err6[U1, U2, U3, U4, U5, U6](self.err)
 }
@@ -757,7 +757,7 @@ func Map46[T1, T2, T3, T4, U1, U2, U3, U4, U5, U6 any](self Result4[T1, T2, T3, 
 	if self.err != nil {
 		return Err6[U1, U2, U3, U4, U5, U6](self.err)
 	}
-	return Ok6[U1, U2, U3, U4, U5, U6](op(self.Value()))
+	return Ok6[U1, U2, U3, U4, U5, U6](op(self.IntoOk()))
 }
 
 // MapOr46 Returns the provided default (if Err), or applies a function to the contained value (if Ok)
@@ -765,7 +765,7 @@ func MapOr46[T1, T2, T3, T4, U1, U2, U3, U4, U5, U6 any](self Result4[T1, T2, T3
 	if self.err != nil {
 		return Ok6[U1, U2, U3, U4, U5, U6](defaultV1, defaultV2, defaultV3, defaultV4, defaultV5, defaultV6)
 	}
-	return op(self.Value())
+	return op(self.IntoOk())
 }
 
 // And51 Returns res if the result is Ok, otherwise returns the Err value of self
@@ -779,7 +779,7 @@ func And51[T1, T2, T3, T4, T5, U1 any](self Result5[T1, T2, T3, T4, T5], res Res
 // AndThen51 Calls op if the result is Ok, otherwise returns the Err value of self
 func AndThen51[T1, T2, T3, T4, T5, U1 any](self Result5[T1, T2, T3, T4, T5], op func(T1, T2, T3, T4, T5) Result1[U1]) Result1[U1] {
 	if self.IsOk() {
-		return op(self.Value())
+		return op(self.IntoOk())
 	}
 	return Err1[U1](self.err)
 }
@@ -789,7 +789,7 @@ func Map51[T1, T2, T3, T4, T5, U1 any](self Result5[T1, T2, T3, T4, T5], op func
 	if self.err != nil {
 		return Err1[U1](self.err)
 	}
-	return Ok1[U1](op(self.Value()))
+	return Ok1[U1](op(self.IntoOk()))
 }
 
 // MapOr51 Returns the provided default (if Err), or applies a function to the contained value (if Ok)
@@ -797,7 +797,7 @@ func MapOr51[T1, T2, T3, T4, T5, U1 any](self Result5[T1, T2, T3, T4, T5], defau
 	if self.err != nil {
 		return Ok1[U1](defaultV1)
 	}
-	return op(self.Value())
+	return op(self.IntoOk())
 }
 
 // And52 Returns res if the result is Ok, otherwise returns the Err value of self
@@ -811,7 +811,7 @@ func And52[T1, T2, T3, T4, T5, U1, U2 any](self Result5[T1, T2, T3, T4, T5], res
 // AndThen52 Calls op if the result is Ok, otherwise returns the Err value of self
 func AndThen52[T1, T2, T3, T4, T5, U1, U2 any](self Result5[T1, T2, T3, T4, T5], op func(T1, T2, T3, T4, T5) Result2[U1, U2]) Result2[U1, U2] {
 	if self.IsOk() {
-		return op(self.Value())
+		return op(self.IntoOk())
 	}
 	return Err2[U1, U2](self.err)
 }
@@ -821,7 +821,7 @@ func Map52[T1, T2, T3, T4, T5, U1, U2 any](self Result5[T1, T2, T3, T4, T5], op 
 	if self.err != nil {
 		return Err2[U1, U2](self.err)
 	}
-	return Ok2[U1, U2](op(self.Value()))
+	return Ok2[U1, U2](op(self.IntoOk()))
 }
 
 // MapOr52 Returns the provided default (if Err), or applies a function to the contained value (if Ok)
@@ -829,7 +829,7 @@ func MapOr52[T1, T2, T3, T4, T5, U1, U2 any](self Result5[T1, T2, T3, T4, T5], d
 	if self.err != nil {
 		return Ok2[U1, U2](defaultV1, defaultV2)
 	}
-	return op(self.Value())
+	return op(self.IntoOk())
 }
 
 // And53 Returns res if the result is Ok, otherwise returns the Err value of self
@@ -843,7 +843,7 @@ func And53[T1, T2, T3, T4, T5, U1, U2, U3 any](self Result5[T1, T2, T3, T4, T5],
 // AndThen53 Calls op if the result is Ok, otherwise returns the Err value of self
 func AndThen53[T1, T2, T3, T4, T5, U1, U2, U3 any](self Result5[T1, T2, T3, T4, T5], op func(T1, T2, T3, T4, T5) Result3[U1, U2, U3]) Result3[U1, U2, U3] {
 	if self.IsOk() {
-		return op(self.Value())
+		return op(self.IntoOk())
 	}
 	return Err3[U1, U2, U3](self.err)
 }
@@ -853,7 +853,7 @@ func Map53[T1, T2, T3, T4, T5, U1, U2, U3 any](self Result5[T1, T2, T3, T4, T5],
 	if self.err != nil {
 		return Err3[U1, U2, U3](self.err)
 	}
-	return Ok3[U1, U2, U3](op(self.Value()))
+	return Ok3[U1, U2, U3](op(self.IntoOk()))
 }
 
 // MapOr53 Returns the provided default (if Err), or applies a function to the contained value (if Ok)
@@ -861,7 +861,7 @@ func MapOr53[T1, T2, T3, T4, T5, U1, U2, U3 any](self Result5[T1, T2, T3, T4, T5
 	if self.err != nil {
 		return Ok3[U1, U2, U3](defaultV1, defaultV2, defaultV3)
 	}
-	return op(self.Value())
+	return op(self.IntoOk())
 }
 
 // And54 Returns res if the result is Ok, otherwise returns the Err value of self
@@ -875,7 +875,7 @@ func And54[T1, T2, T3, T4, T5, U1, U2, U3, U4 any](self Result5[T1, T2, T3, T4, 
 // AndThen54 Calls op if the result is Ok, otherwise returns the Err value of self
 func AndThen54[T1, T2, T3, T4, T5, U1, U2, U3, U4 any](self Result5[T1, T2, T3, T4, T5], op func(T1, T2, T3, T4, T5) Result4[U1, U2, U3, U4]) Result4[U1, U2, U3, U4] {
 	if self.IsOk() {
-		return op(self.Value())
+		return op(self.IntoOk())
 	}
 	return Err4[U1, U2, U3, U4](self.err)
 }
@@ -885,7 +885,7 @@ func Map54[T1, T2, T3, T4, T5, U1, U2, U3, U4 any](self Result5[T1, T2, T3, T4, 
 	if self.err != nil {
 		return Err4[U1, U2, U3, U4](self.err)
 	}
-	return Ok4[U1, U2, U3, U4](op(self.Value()))
+	return Ok4[U1, U2, U3, U4](op(self.IntoOk()))
 }
 
 // MapOr54 Returns the provided default (if Err), or applies a function to the contained value (if Ok)
@@ -893,7 +893,7 @@ func MapOr54[T1, T2, T3, T4, T5, U1, U2, U3, U4 any](self Result5[T1, T2, T3, T4
 	if self.err != nil {
 		return Ok4[U1, U2, U3, U4](defaultV1, defaultV2, defaultV3, defaultV4)
 	}
-	return op(self.Value())
+	return op(self.IntoOk())
 }
 
 // And55 Returns res if the result is Ok, otherwise returns the Err value of self
@@ -907,7 +907,7 @@ func And55[T1, T2, T3, T4, T5, U1, U2, U3, U4, U5 any](self Result5[T1, T2, T3, 
 // AndThen55 Calls op if the result is Ok, otherwise returns the Err value of self
 func AndThen55[T1, T2, T3, T4, T5, U1, U2, U3, U4, U5 any](self Result5[T1, T2, T3, T4, T5], op func(T1, T2, T3, T4, T5) Result5[U1, U2, U3, U4, U5]) Result5[U1, U2, U3, U4, U5] {
 	if self.IsOk() {
-		return op(self.Value())
+		return op(self.IntoOk())
 	}
 	return Err5[U1, U2, U3, U4, U5](self.err)
 }
@@ -917,7 +917,7 @@ func Map55[T1, T2, T3, T4, T5, U1, U2, U3, U4, U5 any](self Result5[T1, T2, T3, 
 	if self.err != nil {
 		return Err5[U1, U2, U3, U4, U5](self.err)
 	}
-	return Ok5[U1, U2, U3, U4, U5](op(self.Value()))
+	return Ok5[U1, U2, U3, U4, U5](op(self.IntoOk()))
 }
 
 // MapOr55 Returns the provided default (if Err), or applies a function to the contained value (if Ok)
@@ -925,7 +925,7 @@ func MapOr55[T1, T2, T3, T4, T5, U1, U2, U3, U4, U5 any](self Result5[T1, T2, T3
 	if self.err != nil {
 		return Ok5[U1, U2, U3, U4, U5](defaultV1, defaultV2, defaultV3, defaultV4, defaultV5)
 	}
-	return op(self.Value())
+	return op(self.IntoOk())
 }
 
 // And56 Returns res if the result is Ok, otherwise returns the Err value of self
@@ -939,7 +939,7 @@ func And56[T1, T2, T3, T4, T5, U1, U2, U3, U4, U5, U6 any](self Result5[T1, T2, 
 // AndThen56 Calls op if the result is Ok, otherwise returns the Err value of self
 func AndThen56[T1, T2, T3, T4, T5, U1, U2, U3, U4, U5, U6 any](self Result5[T1, T2, T3, T4, T5], op func(T1, T2, T3, T4, T5) Result6[U1, U2, U3, U4, U5, U6]) Result6[U1, U2, U3, U4, U5, U6] {
 	if self.IsOk() {
-		return op(self.Value())
+		return op(self.IntoOk())
 	}
 	return Err6[U1, U2, U3, U4, U5, U6](self.err)
 }
@@ -949,7 +949,7 @@ func Map56[T1, T2, T3, T4, T5, U1, U2, U3, U4, U5, U6 any](self Result5[T1, T2, 
 	if self.err != nil {
 		return Err6[U1, U2, U3, U4, U5, U6](self.err)
 	}
-	return Ok6[U1, U2, U3, U4, U5, U6](op(self.Value()))
+	return Ok6[U1, U2, U3, U4, U5, U6](op(self.IntoOk()))
 }
 
 // MapOr56 Returns the provided default (if Err), or applies a function to the contained value (if Ok)
@@ -957,7 +957,7 @@ func MapOr56[T1, T2, T3, T4, T5, U1, U2, U3, U4, U5, U6 any](self Result5[T1, T2
 	if self.err != nil {
 		return Ok6[U1, U2, U3, U4, U5, U6](defaultV1, defaultV2, defaultV3, defaultV4, defaultV5, defaultV6)
 	}
-	return op(self.Value())
+	return op(self.IntoOk())
 }
 
 // And61 Returns res if the result is Ok, otherwise returns the Err value of self
@@ -971,7 +971,7 @@ func And61[T1, T2, T3, T4, T5, T6, U1 any](self Result6[T1, T2, T3, T4, T5, T6],
 // AndThen61 Calls op if the result is Ok, otherwise returns the Err value of self
 func AndThen61[T1, T2, T3, T4, T5, T6, U1 any](self Result6[T1, T2, T3, T4, T5, T6], op func(T1, T2, T3, T4, T5, T6) Result1[U1]) Result1[U1] {
 	if self.IsOk() {
-		return op(self.Value())
+		return op(self.IntoOk())
 	}
 	return Err1[U1](self.err)
 }
@@ -981,7 +981,7 @@ func Map61[T1, T2, T3, T4, T5, T6, U1 any](self Result6[T1, T2, T3, T4, T5, T6],
 	if self.err != nil {
 		return Err1[U1](self.err)
 	}
-	return Ok1[U1](op(self.Value()))
+	return Ok1[U1](op(self.IntoOk()))
 }
 
 // MapOr61 Returns the provided default (if Err), or applies a function to the contained value (if Ok)
@@ -989,7 +989,7 @@ func MapOr61[T1, T2, T3, T4, T5, T6, U1 any](self Result6[T1, T2, T3, T4, T5, T6
 	if self.err != nil {
 		return Ok1[U1](defaultV1)
 	}
-	return op(self.Value())
+	return op(self.IntoOk())
 }
 
 // And62 Returns res if the result is Ok, otherwise returns the Err value of self
@@ -1003,7 +1003,7 @@ func And62[T1, T2, T3, T4, T5, T6, U1, U2 any](self Result6[T1, T2, T3, T4, T5, 
 // AndThen62 Calls op if the result is Ok, otherwise returns the Err value of self
 func AndThen62[T1, T2, T3, T4, T5, T6, U1, U2 any](self Result6[T1, T2, T3, T4, T5, T6], op func(T1, T2, T3, T4, T5, T6) Result2[U1, U2]) Result2[U1, U2] {
 	if self.IsOk() {
-		return op(self.Value())
+		return op(self.IntoOk())
 	}
 	return Err2[U1, U2](self.err)
 }
@@ -1013,7 +1013,7 @@ func Map62[T1, T2, T3, T4, T5, T6, U1, U2 any](self Result6[T1, T2, T3, T4, T5, 
 	if self.err != nil {
 		return Err2[U1, U2](self.err)
 	}
-	return Ok2[U1, U2](op(self.Value()))
+	return Ok2[U1, U2](op(self.IntoOk()))
 }
 
 // MapOr62 Returns the provided default (if Err), or applies a function to the contained value (if Ok)
@@ -1021,7 +1021,7 @@ func MapOr62[T1, T2, T3, T4, T5, T6, U1, U2 any](self Result6[T1, T2, T3, T4, T5
 	if self.err != nil {
 		return Ok2[U1, U2](defaultV1, defaultV2)
 	}
-	return op(self.Value())
+	return op(self.IntoOk())
 }
 
 // And63 Returns res if the result is Ok, otherwise returns the Err value of self
@@ -1035,7 +1035,7 @@ func And63[T1, T2, T3, T4, T5, T6, U1, U2, U3 any](self Result6[T1, T2, T3, T4, 
 // AndThen63 Calls op if the result is Ok, otherwise returns the Err value of self
 func AndThen63[T1, T2, T3, T4, T5, T6, U1, U2, U3 any](self Result6[T1, T2, T3, T4, T5, T6], op func(T1, T2, T3, T4, T5, T6) Result3[U1, U2, U3]) Result3[U1, U2, U3] {
 	if self.IsOk() {
-		return op(self.Value())
+		return op(self.IntoOk())
 	}
 	return Err3[U1, U2, U3](self.err)
 }
@@ -1045,7 +1045,7 @@ func Map63[T1, T2, T3, T4, T5, T6, U1, U2, U3 any](self Result6[T1, T2, T3, T4, 
 	if self.err != nil {
 		return Err3[U1, U2, U3](self.err)
 	}
-	return Ok3[U1, U2, U3](op(self.Value()))
+	return Ok3[U1, U2, U3](op(self.IntoOk()))
 }
 
 // MapOr63 Returns the provided default (if Err), or applies a function to the contained value (if Ok)
@@ -1053,7 +1053,7 @@ func MapOr63[T1, T2, T3, T4, T5, T6, U1, U2, U3 any](self Result6[T1, T2, T3, T4
 	if self.err != nil {
 		return Ok3[U1, U2, U3](defaultV1, defaultV2, defaultV3)
 	}
-	return op(self.Value())
+	return op(self.IntoOk())
 }
 
 // And64 Returns res if the result is Ok, otherwise returns the Err value of self
@@ -1067,7 +1067,7 @@ func And64[T1, T2, T3, T4, T5, T6, U1, U2, U3, U4 any](self Result6[T1, T2, T3, 
 // AndThen64 Calls op if the result is Ok, otherwise returns the Err value of self
 func AndThen64[T1, T2, T3, T4, T5, T6, U1, U2, U3, U4 any](self Result6[T1, T2, T3, T4, T5, T6], op func(T1, T2, T3, T4, T5, T6) Result4[U1, U2, U3, U4]) Result4[U1, U2, U3, U4] {
 	if self.IsOk() {
-		return op(self.Value())
+		return op(self.IntoOk())
 	}
 	return Err4[U1, U2, U3, U4](self.err)
 }
@@ -1077,7 +1077,7 @@ func Map64[T1, T2, T3, T4, T5, T6, U1, U2, U3, U4 any](self Result6[T1, T2, T3, 
 	if self.err != nil {
 		return Err4[U1, U2, U3, U4](self.err)
 	}
-	return Ok4[U1, U2, U3, U4](op(self.Value()))
+	return Ok4[U1, U2, U3, U4](op(self.IntoOk()))
 }
 
 // MapOr64 Returns the provided default (if Err), or applies a function to the contained value (if Ok)
@@ -1085,7 +1085,7 @@ func MapOr64[T1, T2, T3, T4, T5, T6, U1, U2, U3, U4 any](self Result6[T1, T2, T3
 	if self.err != nil {
 		return Ok4[U1, U2, U3, U4](defaultV1, defaultV2, defaultV3, defaultV4)
 	}
-	return op(self.Value())
+	return op(self.IntoOk())
 }
 
 // And65 Returns res if the result is Ok, otherwise returns the Err value of self
@@ -1099,7 +1099,7 @@ func And65[T1, T2, T3, T4, T5, T6, U1, U2, U3, U4, U5 any](self Result6[T1, T2, 
 // AndThen65 Calls op if the result is Ok, otherwise returns the Err value of self
 func AndThen65[T1, T2, T3, T4, T5, T6, U1, U2, U3, U4, U5 any](self Result6[T1, T2, T3, T4, T5, T6], op func(T1, T2, T3, T4, T5, T6) Result5[U1, U2, U3, U4, U5]) Result5[U1, U2, U3, U4, U5] {
 	if self.IsOk() {
-		return op(self.Value())
+		return op(self.IntoOk())
 	}
 	return Err5[U1, U2, U3, U4, U5](self.err)
 }
@@ -1109,7 +1109,7 @@ func Map65[T1, T2, T3, T4, T5, T6, U1, U2, U3, U4, U5 any](self Result6[T1, T2, 
 	if self.err != nil {
 		return Err5[U1, U2, U3, U4, U5](self.err)
 	}
-	return Ok5[U1, U2, U3, U4, U5](op(self.Value()))
+	return Ok5[U1, U2, U3, U4, U5](op(self.IntoOk()))
 }
 
 // MapOr65 Returns the provided default (if Err), or applies a function to the contained value (if Ok)
@@ -1117,7 +1117,7 @@ func MapOr65[T1, T2, T3, T4, T5, T6, U1, U2, U3, U4, U5 any](self Result6[T1, T2
 	if self.err != nil {
 		return Ok5[U1, U2, U3, U4, U5](defaultV1, defaultV2, defaultV3, defaultV4, defaultV5)
 	}
-	return op(self.Value())
+	return op(self.IntoOk())
 }
 
 // And66 Returns res if the result is Ok, otherwise returns the Err value of self
@@ -1131,7 +1131,7 @@ func And66[T1, T2, T3, T4, T5, T6, U1, U2, U3, U4, U5, U6 any](self Result6[T1, 
 // AndThen66 Calls op if the result is Ok, otherwise returns the Err value of self
 func AndThen66[T1, T2, T3, T4, T5, T6, U1, U2, U3, U4, U5, U6 any](self Result6[T1, T2, T3, T4, T5, T6], op func(T1, T2, T3, T4, T5, T6) Result6[U1, U2, U3, U4, U5, U6]) Result6[U1, U2, U3, U4, U5, U6] {
 	if self.IsOk() {
-		return op(self.Value())
+		return op(self.IntoOk())
 	}
 	return Err6[U1, U2, U3, U4, U5, U6](self.err)
 }
@@ -1141,7 +1141,7 @@ func Map66[T1, T2, T3, T4, T5, T6, U1, U2, U3, U4, U5, U6 any](self Result6[T1, 
 	if self.err != nil {
 		return Err6[U1, U2, U3, U4, U5, U6](self.err)
 	}
-	return Ok6[U1, U2, U3, U4, U5, U6](op(self.Value()))
+	return Ok6[U1, U2, U3, U4, U5, U6](op(self.IntoOk()))
 }
 
 // MapOr66 Returns the provided default (if Err), or applies a function to the contained value (if Ok)
@@ -1149,5 +1149,5 @@ func MapOr66[T1, T2, T3, T4, T5, T6, U1, U2, U3, U4, U5, U6 any](self Result6[T1
 	if self.err != nil {
 		return Ok6[U1, U2, U3, U4, U5, U6](defaultV1, defaultV2, defaultV3, defaultV4, defaultV5, defaultV6)
 	}
-	return op(self.Value())
+	return op(self.IntoOk())
 }
